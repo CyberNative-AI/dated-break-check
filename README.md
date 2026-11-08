@@ -37,6 +37,8 @@ jobs:
 
 On pull requests the step only warns. On the weekly run it fails when a matching date is 14 days away or fewer, so GitHub tells you through its usual failed-workflow notice.
 
+A date that has already taken effect keeps failing the weekly run for 30 days after it, as long as your files still use what it changed. For example, a repository still on `postgres:latest` after 19 November gets a red Monday build it did not have the week before. That is on purpose: the change has already reached that repository. Fix or pin the line the warning names, and the next run passes. Only "Hits this repository" fails a run; "May hit this repository" only warns.
+
 ## Inputs
 
 | Input | Default | What it does |
