@@ -4,12 +4,11 @@
 
 Each run reads your repository's files on the runner and runs the published search of every date on the [Breakage Calendar](https://cybernative.ai/breakage-calendar/) that a repository's files can show. A date that matches gets a warning on the line that will break, with the date, the days left and a link to the tested fix. Nothing from your repository leaves the runner.
 
-Example, on a Compose file with `image: postgres:latest`:
+Example: the log of a run on a small test repository on 8 November 2026. Each line is also a warning on that file and line, so a pull request shows it beside the code:
 
 ```
-Warning: compose.yaml#L3  2026-11-19 (in 11 days): postgres:latest becomes 19
-postgres:latest becomes 19: unpinned stacks stop starting. What to check and the tested fix:
-https://cybernative.ai/guides/postgres-latest-19-docker-error-in-18-upgrade/
+2026-11-19  in 11 days                Hits this repository      postgres:latest becomes 19  compose.yaml:3
+2026-12-01  in 23 days                Hits this repository      OpenAI removes older GPT Image models  app/images.py:4
 ```
 
 The job summary lists every matching date in a table.
