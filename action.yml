@@ -1,0 +1,26 @@
+name: Dated break check
+description: Warns in your build before a dated upstream change (image tag move, API or model shutdown, runner change) hits your repository.
+author: CyberNative AI LLC
+branding:
+  icon: calendar
+  color: orange
+inputs:
+  path:
+    description: Folder to read, relative to the workspace.
+    required: false
+    default: '.'
+  days:
+    description: Report dates up to this many days ahead. Dates that took effect in the last 30 days are reported too.
+    required: false
+    default: '120'
+  fail-within:
+    description: Fail the step when a date that hits this repository is this many days away or fewer (0 = only once it is in effect). Leave empty to warn only.
+    required: false
+    default: ''
+  data:
+    description: live reads the current calendar from cybernative.ai (two public JSON files, nothing is sent); bundled uses the copy in this version and makes no request.
+    required: false
+    default: 'live'
+runs:
+  using: 'node24'
+  main: 'src/run.mjs'

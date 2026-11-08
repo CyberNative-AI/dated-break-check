@@ -1,0 +1,7 @@
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql
+volumes:
+  pgdata:
