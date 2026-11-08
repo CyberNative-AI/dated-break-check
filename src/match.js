@@ -41,10 +41,11 @@ function fileTest(spec, sigs) {
   return (p) => new RegExp(spec).test(p);
 }
 
-// postgres, postgres:latest, :alpine and :trixie move to 19 unless a digest follows (the row's check text).
+// postgres, postgres:latest, :alpine, :trixie, :bookworm, :alpine3.24 and :alpine3.23 move to 19 unless a digest follows
+// (the row's check text and the guide's tested tag list).
 // A tag with a major version does not move. Any other tag, or one set from a variable, is for the reader to look up.
 const PG = /(?:image:|FROM)\s*["']?(?:docker\.io\/)?(?:library\/)?postgres(?::([^\s"'@]+))?(@sha256:[0-9a-f]{64})?(?=[\s"']|$)/;
-const PG_MOVES = new Set([undefined, 'latest', 'alpine', 'trixie']);
+const PG_MOVES = new Set([undefined, 'latest', 'alpine', 'trixie', 'bookworm', 'alpine3.24', 'alpine3.23']);
 export function postgresVerdict(line) {
   const m = line.match(PG);
   if (!m) return null;

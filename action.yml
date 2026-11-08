@@ -6,7 +6,7 @@ branding:
   color: orange
 inputs:
   path:
-    description: Folder to read, relative to the workspace.
+    description: Folder to read, inside the workspace.
     required: false
     default: '.'
   days:
@@ -18,7 +18,7 @@ inputs:
     required: false
     default: ''
   data:
-    description: live reads the current calendar from cybernative.ai (two public JSON files, nothing is sent); bundled uses the copy in this version and makes no request.
+    description: live reads the current calendar from cybernative.ai (two GET requests for public JSON files; nothing from the repository is sent); bundled uses the copy in this version and makes no request.
     required: false
     default: 'live'
 runs:

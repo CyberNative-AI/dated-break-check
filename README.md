@@ -2,7 +2,7 @@
 
 **A warning in your build before a dated upstream change hits your repository: an image tag that moves, an API or model that shuts down, a runner that is retired.**
 
-Each run reads your repository's files on the runner and runs the published search of every date on the [Breakage Calendar](https://cybernative.ai/breakage-calendar/) that a repository's files can show. A date that matches gets a warning on the line that will break, with the date, the days left and a link to the tested fix. Nothing from your repository leaves the runner.
+Each run reads your repository's files on the runner and runs the published search of every date on the [Breakage Calendar](https://cybernative.ai/breakage-calendar/) that a repository's files can show. A date that matches gets a warning on the line that will break, with the date, the days left and a link to the tested fix. No file, file name or match from your repository is sent to us.
 
 Example: the log of a run on a small test repository on 8 November 2026. Each line is also a warning on that file and line, so a pull request shows it beside the code:
 
@@ -43,19 +43,21 @@ A date that has already taken effect keeps failing the weekly run for 30 days af
 
 | Input | Default | What it does |
 |---|---|---|
-| `path` | `.` | Folder to read, relative to the workspace. |
+| `path` | `.` | Folder to read, inside the workspace. |
 | `days` | `120` | Report dates up to this many days ahead. Dates that took effect in the last 30 days are reported too. |
 | `fail-within` | empty | Fail when a date that hits the repository is this many days away or fewer. `0` fails only once it is in effect. Empty: warn only. |
 | `data` | `live` | `live` reads the current calendar from cybernative.ai. `bundled` uses the copy in this version and makes no request. |
 
 ## What it reads and sends
 
-- It reads text files up to 1 MB in the checked-out folder, at most 20,000 files, and skips `.git`, `node_modules`, virtual environments and build output.
-- With `data: live` it makes two GET requests to public files, `https://cybernative.ai/breakage-calendar/entries.json` and `https://cybernative.ai/breakage-calendar/check/signatures.json`, with the user agent `dated-break-check/0.1`. Like any web request, these show our server the runner's IP address and the time. Nothing about your repository is sent. If the files cannot be read, the step says so and uses the bundled copy.
+- It reads text files up to 1 MB in the chosen folder, at most 20,000 files and 512 MB in all, and skips `.git`, `node_modules`, virtual environments and build output. `path` must be a folder inside the workspace; symlinks are not followed.
+- With `data: live` it makes two GET requests with no body, to `https://cybernative.ai/breakage-calendar/entries.json` and `https://cybernative.ai/breakage-calendar/check/signatures.json`, with the user agent `dated-break-check/0.1 (+https://github.com/CyberNative-AI/dated-break-check)`, and refuses redirects. Like any web request, these show our server the runner's IP address and the time. Nothing from your repository is in them. If the files cannot be read or are not in the expected form, the step says so and uses the bundled copy.
 - With `data: bundled` it makes no network request.
+- What it finds (dates, file names and line numbers) goes where every step's output goes: the job log, the annotations and the job summary, which GitHub keeps with the workflow run. Anyone who can see the repository's Actions runs can read them; on a public repository, that is anyone.
 
 ## Limits
 
+- The search stops after 5 minutes or 256 MB of memory; the step then fails and reports nothing, rather than passing as clean. If it reaches the file or size limit above, it warns that the folder was only partly read, and the weekly run (with `fail-within`) fails. Set `path` to a smaller folder in either case.
 - It finds names as they are written in your files. An image tag, model name or runner label built at run time from a variable is not seen.
 - Some dates cannot show in a repository's files at all (a certificate's expiry, a service you only call from a dashboard). The calendar lists them; this step does not.
 - "May hit this repository" means the files use what the date affects and only some setups break; the linked page says which.
