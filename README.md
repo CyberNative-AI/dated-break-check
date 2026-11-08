@@ -57,7 +57,7 @@ A date that has already taken effect keeps failing the weekly run for 30 days af
 
 ## Limits
 
-- The search stops after 5 minutes or 256 MB of memory; the step then fails and reports nothing, rather than passing as clean. If it reaches the file or size limit above, it warns that the folder was only partly read, and the weekly run (with `fail-within`) fails. Set `path` to a smaller folder in either case.
+- The search runs in a separate thread with a 5-minute deadline and a 256 MB limit on its JavaScript heap; the step as a whole can use more memory than that. If the thread reaches the deadline or the heap limit, or fails, the step fails and reports nothing, rather than passing as clean. If it reaches the file or size limit above, it warns that the folder was only partly read, and the weekly run (with `fail-within`) fails. Set `path` to a smaller folder in either case.
 - It finds names as they are written in your files. An image tag, model name or runner label built at run time from a variable is not seen.
 - Some dates cannot show in a repository's files at all (a certificate's expiry, a service you only call from a dashboard). The calendar lists them; this step does not.
 - "May hit this repository" means the files use what the date affects and only some setups break; the linked page says which.
