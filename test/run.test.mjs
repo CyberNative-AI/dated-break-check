@@ -190,6 +190,26 @@ test('batched scan gives the same rows as one scan over every file', () => {
   }
 });
 
+// The Claude API date must not fire on Bedrock or Vertex AI model IDs: those platforms keep their own dates.
+test('Claude API retirement matches API ids only; Bedrock ids get the Bedrock date', () => {
+  const sigs = data('signatures.json');
+  const files = [
+    { path: 'app/api.py', text: 'client.messages.create(model="claude-sonnet-4-5-20250929")\n' },
+    { path: 'app/bedrock.py', text: 'import boto3\nMODEL = "anthropic.claude-sonnet-4-5-20250929-v1:0"\nPROFILE = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"\n' },
+    { path: 'app/vertex.py', text: 'MODEL = "claude-sonnet-4-5@20250929"\n' },
+  ];
+  const where = (id) => (scan(files, sigs).find((r) => r.row === id)?.hits || []).map((h) => `${h.path}:${h.line}`);
+  assert.deepEqual(where('2026-11-30-claude-sonnet-4-5-retired'), ['app/api.py:1']);
+  assert.deepEqual(where('2027-04-08-bedrock-claude-sonnet-4-5-end-of-life'), ['app/bedrock.py:2', 'app/bedrock.py:3']);
+});
+
+test('annotation says the fix is ours and only where we have one', async () => {
+  const { out } = await run(fx('stack'));
+  const warn = out.filter((l) => l.startsWith('::warning ') || l.startsWith('::notice '));
+  assert.ok(warn.length > 0);
+  for (const l of warn) assert.ok(l.includes('. What to check, and our tested fix where we have one: https://cybernative.ai/'), l);
+});
+
 // ---- Workspace boundary (C3145)
 test('path stays inside the workspace; symlinks out of it are refused or not followed', async () => {
   const outside = tmp();

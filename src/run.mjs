@@ -166,7 +166,7 @@ export function annotations(found, rel) {
     const level = f.kind === 'match' ? 'warning' : 'notice';
     const file = rel === '.' ? h.path : `${rel}/${h.path}`;
     const fix = guide(e) || link(e);
-    return `::${level} file=${escProp(file)},line=${h.line},title=${escProp(`${e.date} (${when(f.daysLeft)}): ${e.short || e.id}`)}::${escMsg(`${e.title}. What to check and the tested fix: ${fix}`)}`;
+    return `::${level} file=${escProp(file)},line=${h.line},title=${escProp(`${e.date} (${when(f.daysLeft)}): ${e.short || e.id}`)}::${escMsg(`${e.title}. What to check, and our tested fix where we have one: ${fix}`)}`;
   });
 }
 
