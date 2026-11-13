@@ -4,11 +4,11 @@
 
 Each run reads your repository's files on the runner and runs the published search of every date on the [Breakage Calendar](https://cybernative.ai/breakage-calendar/) that a repository's files can show. A date that matches gets a warning on the line that will break, with the date, the days left and a link to the tested fix. No file, file name or match from your repository is sent to us.
 
-Example: the log of a run on a small test repository on 8 November 2026. Each line is also a warning on that file and line, so a pull request shows it beside the code:
+Example: the log of a run on a small test repository on 13 November 2026. Each line is also a warning on that file and line, so a pull request shows it beside the code:
 
 ```
-2026-11-19  in 11 days                Hits this repository      postgres:latest becomes 19  compose.yaml:3
-2026-12-01  in 23 days                Hits this repository      OpenAI removes older GPT Image models  app/images.py:4
+2026-11-19  in 6 days                 Hits this repository      postgres:latest becomes 19  compose.yaml:3
+2026-11-30  in 17 days                Hits this repository      Claude Sonnet 4.5 retired from the Claude API  app/summarize.py:3
 ```
 
 The job summary lists every matching date in a table.
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: CyberNative-AI/dated-break-check@COMMIT_SHA   # pin the release commit
+      - uses: CyberNative-AI/dated-break-check@v1   # or pin the full commit SHA of a release
         with:
           fail-within: ${{ github.event_name == 'schedule' && '14' || '' }}
 ```
@@ -51,7 +51,7 @@ A date that has already taken effect keeps failing the weekly run for 30 days af
 ## What it reads and sends
 
 - It reads text files up to 1 MB in the chosen folder, at most 20,000 files and 512 MB in all, and skips `.git`, `node_modules`, virtual environments and build output. `path` must be a folder inside the workspace; symlinks are not followed.
-- With `data: live` it makes two GET requests with no body, to `https://cybernative.ai/breakage-calendar/entries.json` and `https://cybernative.ai/breakage-calendar/check/signatures.json`, with the user agent `dated-break-check/0.1 (+https://github.com/CyberNative-AI/dated-break-check)`, and refuses redirects. Like any web request, these show our server the runner's IP address and the time. Nothing from your repository is in them. If the files cannot be read or are not in the expected form, the step says so and uses the bundled copy.
+- With `data: live` it makes two GET requests with no body, to `https://cybernative.ai/breakage-calendar/entries.json` and `https://cybernative.ai/breakage-calendar/check/signatures.json`, with the user agent `dated-break-check/1.0 (+https://github.com/CyberNative-AI/dated-break-check)`, and refuses redirects. Like any web request, these show our server the runner's IP address and the time. Nothing from your repository is in them. If the files cannot be read or are not in the expected form, the step says so and uses the bundled copy.
 - With `data: bundled` it makes no network request.
 - What it finds (dates, file names and line numbers) goes where every step's output goes: the job log, the annotations and the job summary, which GitHub keeps with the workflow run. Anyone who can see the repository's Actions runs can read them; on a public repository, that is anyone.
 

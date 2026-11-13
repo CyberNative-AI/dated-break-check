@@ -105,7 +105,7 @@ test('live mode: two GETs, no body, our user agent, redirects refused', async ()
     assert.equal(opts.redirect, 'error');
     assert.deepEqual(opts.headers, { 'user-agent': UA });
   }
-  assert.equal(UA, 'dated-break-check/0.1 (+https://github.com/CyberNative-AI/dated-break-check)');
+  assert.equal(UA, 'dated-break-check/1.0 (+https://github.com/CyberNative-AI/dated-break-check)');
   assert.match(summary, /current, from cybernative\.ai/);
 });
 

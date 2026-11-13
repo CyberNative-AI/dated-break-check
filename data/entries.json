@@ -1,7 +1,7 @@
 {
   "title": "CyberNative Breakage Calendar",
   "page": "https://cybernative.ai/breakage-calendar/",
-  "updated": "2026-11-05",
+  "updated": "2026-11-12",
   "entries": [
     {
       "id": "2026-10-01-tls-200-day-certificates-first-expiries",
@@ -1329,16 +1329,16 @@
     {
       "id": "2026-11-17-gemini-tts-live-previews-shut-down",
       "added": "2026-10-20",
-      "short": "Gemini TTS and Live preview models shut down",
+      "short": "Gemini TTS and Live preview models may shut down",
       "date": "2026-11-17",
       "dateEnd": null,
       "datePrecision": "day",
       "time": null,
-      "title": "Google shuts down Gemini TTS and Live preview models in the Gemini API",
+      "title": "Google may shut down Gemini TTS and Live preview models in the Gemini API",
       "area": "AI APIs",
-      "what": "Google's Gemini API deprecations page lists 17 November 2026 as the shutdown date for gemini-2.5-flash-preview-tts, gemini-2.5-pro-preview-tts and gemini-3.1-flash-tts-preview (replacements gemini-3.8-flash-tts or gemini-3.8-flash-lite-tts), and for gemini-3.1-flash-live-preview and gemini-2.5-flash-native-audio-preview-12-2025 (replacement gemini-3.8-live).",
-      "affected": "Speech and voice-agent code that uses these preview models, directly or through a library default.",
-      "check": "Search your code and installed packages for the five model names; pass the replacement model explicitly.",
+      "what": "Google's Gemini API deprecations page lists 17 November 2026 as the earliest possible shutdown date for gemini-2.5-flash-preview-tts, gemini-2.5-pro-preview-tts and gemini-3.1-flash-tts-preview (replacements gemini-3.8-flash-tts or gemini-3.8-flash-lite-tts), and for gemini-3.1-flash-live-preview and gemini-2.5-flash-native-audio-preview-12-2025 (replacement gemini-3.8-live). Google says it will tell users the exact shutdown date in advance.",
+      "affected": "Speech and voice-agent code that uses these preview models, directly or through a library default. Update, 8 November: in the latest releases we read on 8 November, four libraries send one of these names when you don't pass a model. livekit-plugins-google 1.8.11 (Python) and @livekit/agents-plugin-google 1.9.5 (JavaScript) do it for Gemini TTS, and for the realtime model when it uses the Gemini API rather than Vertex AI. pipecat-ai 1.15.0 does it for GeminiTTSService when that uses the Gemini API (with api_key or use_genai=True). google-adk 2.14.0 does it in the adk web dev UI, for evals with audio simulation on; there is no setting to change it there. The Vercel AI SDK, LangChain's Google packages, LiteLLM, CrewAI, Mastra, pydantic-ai and Google's google-genai SDK list these models but don't choose them for you. We read the code; we did not call the API.",
+      "check": "Search your code and installed packages for the five model names. No match in your own code does not clear you if you create one of these without a model: LiveKit's google.beta.GeminiTTS() or google.realtime.RealtimeModel() in Python, beta.TTS or realtime.RealtimeModel in JavaScript, or Pipecat's GeminiTTSService(). Pass the replacement model explicitly: for example GeminiTTS(model=\"gemini-3.8-flash-tts\"), RealtimeModel(model=\"gemini-3.8-live\"), the same model option in JavaScript, or GeminiTTSService(settings=GeminiTTSService.Settings(model=\"gemini-3.8-flash-lite-tts\")) in Pipecat.",
       "checkCode": null,
       "fix": {
         "kind": "none",
@@ -1350,7 +1350,37 @@
         {
           "label": "Gemini API deprecations page",
           "href": "https://ai.google.dev/gemini-api/docs/deprecations",
-          "checkedAt": "2026-10-18"
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "LiveKit Python plugin 1.8.11: Gemini TTS default (line 87)",
+          "href": "https://github.com/livekit/agents/blob/296f28b0198dea71211f9a5e5cb8187292ab896a/livekit-plugins/livekit-plugins-google/livekit/plugins/google/beta/gemini_tts.py#L87",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "LiveKit Python plugin 1.8.11: realtime default (lines 341 to 345)",
+          "href": "https://github.com/livekit/agents/blob/296f28b0198dea71211f9a5e5cb8187292ab896a/livekit-plugins/livekit-plugins-google/livekit/plugins/google/realtime/realtime_api.py#L341-L345",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "LiveKit JavaScript plugin 1.9.5: Gemini TTS default (line 52)",
+          "href": "https://github.com/livekit/agents-js/blob/22da3e891865bea45d3cbb30c08241f165ab8aab/plugins/google/src/beta/gemini_tts.ts#L52",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "LiveKit JavaScript plugin 1.9.5: realtime default (line 439)",
+          "href": "https://github.com/livekit/agents-js/blob/22da3e891865bea45d3cbb30c08241f165ab8aab/plugins/google/src/realtime/realtime_api.ts#L439",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Pipecat 1.15.0: GeminiTTSService default (line 1389)",
+          "href": "https://github.com/pipecat-ai/pipecat/blob/fda1d5e0cde9625c8dcef7b653ed731c2ce63672/src/pipecat/services/google/tts.py#L1389",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "ADK 2.14.0: adk web bundle (minified; search for gemini-3.1-flash-tts-preview)",
+          "href": "https://raw.githubusercontent.com/google/adk-python/93814c3475916bf873236f4e30f6915b4b9c8698/src/google/adk/cli/browser/main-KCUV4MHY.js",
+          "checkedAt": "2026-11-08"
         }
       ]
     },
@@ -1404,8 +1434,8 @@
       "title": "Anthropic retires Claude Sonnet 4.5 (claude-sonnet-4-5-20250929) on the Claude API",
       "area": "AI APIs",
       "what": "On 30 September 2026 Anthropic announced that claude-sonnet-4-5-20250929 will be retired from the Claude API on 30 November 2026; the recommended replacement is claude-sonnet-5-5. Anthropic's versioning page says the alias claude-sonnet-4-5 resolves to the most recent dated 4.5 snapshot, which is this one; the notice does not state the alias's own retirement date.",
-      "affected": "Code that sends claude-sonnet-4-5-20250929 or the alias claude-sonnet-4-5 to the Claude API. Bedrock and Vertex AI follow their own schedules.",
-      "check": "Search your code and installed packages for claude-sonnet-4-5; pass the replacement model explicitly.",
+      "affected": "Code that sends claude-sonnet-4-5-20250929 or the alias claude-sonnet-4-5 to the Claude API, or to Microsoft Foundry, which Anthropic says follows the Claude API lifecycle schedule. Bedrock and Vertex AI follow their own schedules. Update, 8 November: in the latest releases we read on 8 November, six libraries and tools send this model when you don't choose one: LangChain's ChatAnthropic for JavaScript (@langchain/anthropic 1.6.1), Haystack's AnthropicChatGenerator and AnthropicFoundryChatGenerator (anthropic-haystack 8.0.1), LangChain's legacy AnthropicLLM for Python (langchain-anthropic 1.7.10), agno's AzureFoundryClaude for Microsoft Foundry (agno 3.1.12), aider 0.86.2 started without a model while ANTHROPIC_API_KEY is set, and genagent 0.4.1. Two send the dated ID and four send the alias. Choosing the model yourself, for example claude-sonnet-5-5, overrides each default; the library list at the end of this entry gives each one's file, line and setting. We read the code; we did not call the API. Claude Code on Microsoft Foundry sends this model too, according to Anthropic's documentation: there its default model and its sonnet alias resolve to Sonnet 4.5 unless ANTHROPIC_DEFAULT_SONNET_MODEL is set. Set that variable to a deployment of a current Sonnet model. We took this from the documentation and did not run it.",
+      "check": "Search your code, configuration and installed packages for claude-sonnet-4-5, which also matches the dated ID; pass the replacement model explicitly. In installed packages most hits are model lists and deprecation tables, which send nothing. The libraries that send this model when your code names none are in the list at the end of this entry, with the setting that overrides each one.",
       "checkCode": null,
       "fix": {
         "kind": "none",
@@ -1417,13 +1447,109 @@
         {
           "label": "Claude model deprecations page (entry of 30 September 2026)",
           "href": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
-          "checkedAt": "2026-10-18"
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Claude models overview (Microsoft Foundry follows the Claude API lifecycle)",
+          "href": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Claude Code model configuration (Microsoft Foundry: default model and sonnet alias)",
+          "href": "https://code.claude.com/docs/en/model-config",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Claude Code on Microsoft Foundry (pin model versions)",
+          "href": "https://code.claude.com/docs/en/microsoft-foundry",
+          "checkedAt": "2026-11-08"
         }
       ],
       "see": {
         "href": "/guides/anthropic-temperature-unexpected-keyword-argument/",
         "label": "Anthropic Python SDK 1.0 and 2.0 errors: temperature TypeError fixes"
-      }
+      },
+      "packagesNote": "Paths are relative to site-packages for Python packages and to the package folder in node_modules for npm packages, with line numbers from the version we read on 8 November 2026; they can move in later releases. We read the latest release of 38 agent frameworks and Anthropic integrations (29 on PyPI, 9 on npm) and of the 60 packages among the 8,000 most-downloaded on PyPI that depend on Anthropic's Python SDK, so other libraries can do the same. Listed: the packages that two independent readings of the code, made without seeing each other's labels, marked as sending this model when you don't choose one.",
+      "packages": [
+        {
+          "package": "@langchain/anthropic",
+          "version": "1.6.1",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5-20250929",
+          "role": "ChatAnthropic without a model option",
+          "fileLine": "dist/chat_models.js:655",
+          "also": [],
+          "usesNamedSnapshot": true,
+          "note": "The CommonJS build has the same default in dist/chat_models.cjs."
+        },
+        {
+          "package": "anthropic-haystack",
+          "version": "8.0.1",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5",
+          "role": "AnthropicChatGenerator without model=",
+          "fileLine": "haystack_integrations/components/generators/anthropic/chat/chat_generator.py:139",
+          "also": [
+            {
+              "modelId": "claude-sonnet-4-5",
+              "role": "AnthropicFoundryChatGenerator (Microsoft Foundry) without model=",
+              "fileLine": "haystack_integrations/components/generators/anthropic/chat/foundry_chat_generator.py:101"
+            }
+          ],
+          "usesNamedSnapshot": false,
+          "note": "The Foundry class sends a deployment name; on Microsoft Foundry a new deployment is named after the model's Claude API alias unless you choose another name."
+        },
+        {
+          "package": "langchain-anthropic",
+          "version": "1.7.10",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5",
+          "role": "AnthropicLLM (legacy, marked deprecated) without model=",
+          "fileLine": "langchain_anthropic/llms.py:32",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "ChatAnthropic in this package has no default model: you must name one."
+        },
+        {
+          "package": "agno",
+          "version": "3.1.12",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5",
+          "role": "AzureFoundryClaude (from agno.models.azure; Microsoft Foundry) without id=",
+          "fileLine": "agno/models/azure/claude.py:36",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "On Microsoft Foundry this value is the deployment name, and a new deployment is named after the model's Claude API alias unless you choose another name."
+        },
+        {
+          "package": "aider-chat",
+          "version": "0.86.2",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5",
+          "role": "aider started without --model, with ANTHROPIC_API_KEY set and OPENROUTER_API_KEY unset (the sonnet alias)",
+          "fileLine": "aider/models.py:89",
+          "also": [
+            {
+              "modelId": "claude-sonnet-4-5",
+              "role": "editor model in architect mode with --model opus, without --editor-model",
+              "fileLine": "aider/resources/model-settings.yml:1867"
+            }
+          ],
+          "usesNamedSnapshot": false,
+          "note": "0.86.2 (12 February 2026) is the latest release. aider's main branch maps sonnet to claude-sonnet-4-6, but no release includes that yet; --model or --editor-model overrides both defaults."
+        },
+        {
+          "package": "genagent",
+          "version": "0.4.1",
+          "versionReadOn": "2026-11-08",
+          "modelId": "claude-sonnet-4-5-20250929",
+          "role": "gen() and mod_gen() without model=, when the DEFAULT_MODEL environment variable is unset",
+          "fileLine": "genagent/llm_utils.py:40",
+          "also": [],
+          "usesNamedSnapshot": true,
+          "note": null
+        }
+      ]
     },
     {
       "id": "2026-11-30-openai-prompts-evals-agent-builder-shut-down",
@@ -1710,21 +1836,21 @@
       "time": null,
       "title": "postgres:latest becomes 19: unpinned stacks stop starting",
       "area": "Databases",
-      "what": "PostgreSQL 19 is planned for 19 November 2026 (release candidate 2 on 12 November). When it ships, the official Docker image's postgres, postgres:latest, postgres:alpine, postgres:trixie, postgres:bookworm, postgres:alpine3.24 and postgres:alpine3.23 tags move from 18 to 19. A stack that uses one of those tags and already holds data will not start once it pulls the new image and recreates the database container. In our test the 19 container exited with code 1 (\"Error: in 18+ … there appears to be PostgreSQL data in /var/lib/postgresql/18/docker\", or \"database files are incompatible with server\" when PGDATA is set).",
+      "what": "PostgreSQL 19 is planned for 19 November 2026 (release candidate 2 came out on 12 November). When it ships, the official Docker image's postgres, postgres:latest, postgres:alpine, postgres:trixie, postgres:bookworm, postgres:alpine3.24 and postgres:alpine3.23 tags move from 18 to 19. A stack that uses one of those tags and already holds data will not start once it pulls the new image and recreates the database container. In our tests on both release candidates the 19 container exited with code 1 (\"Error: in 18+ … there appears to be PostgreSQL data in /var/lib/postgresql/18/docker\", or \"database files are incompatible with server\" when PGDATA is set).",
       "affected": "Self-hosted stacks that already hold data and use postgres, postgres:latest, postgres:alpine, postgres:trixie, postgres:bookworm, postgres:alpine3.24 or postgres:alpine3.23 (directly or through a registry mirror) without an @sha256 digest. Of 253 projects on the awesome-selfhosted list whose main compose file uses the official postgres image (278 counting test, dev and CI files), 31 use a tag that will move. We then narrowed this to the files a user is likely to copy, after seeing the scan. 9 of those match the two layouts that failed in our test, so existing installs will stop once they pull and recreate on or after 19 November: cal.diy, Hyperswitch, Payload's with-postgres template, Reactive Resume, Grist's Keycloak example, Retrom, Bracket, BookLogr and PodFetch. 4 of these 9 merged a change that moved the volume mount for PostgreSQL 18 (October 2025 to August 2026) and kept the moving tag. We read each project's compose files at its head on 19 October 2026; we did not read every install or run the projects themselves.",
       "check": "Run this in the folder with your compose file. A line printed means that service moves to 19 on 19 November; it resolves ${VARIABLES} first and also catches mirrors such as public.ecr.aws/docker/library/postgres. For a service with build: instead of image:, read its Dockerfile FROM line: FROM postgres with no number, or with one of the tags above, moves too.",
       "checkCode": "docker compose config --images |\n  grep -E '(^|/)postgres(:(latest|trixie|bookworm|alpine|alpine3\\.2[34]))?$'",
       "fix": {
         "kind": "tested",
-        "text": "Pin the major your database runs today: postgres:18 if it runs 18 (or 18-alpine, 18-trixie, 18-bookworm). We tested this with two 1,000-row 18.6 databases, one in the default layout and one with PGDATA set: 19 RC 1 refused both, and both opened again on postgres:18 with all 1,000 rows. Upgrade to 19 later with pg_upgrade or a dump and restore. Do not run docker compose down -v as a fix: it can delete the database volume.",
+        "text": "Pin the major your database runs today: postgres:18 if it runs 18 (or 18-alpine, 18-trixie, 18-bookworm). We tested this with two 1,000-row 18 databases, one in the default layout and one with PGDATA set, on 18.6 and 19 RC 1 (30 October) and on 18.7 and 19 RC 2 (13 November): 19 refused both each time, and both opened again on postgres:18 with all 1,000 rows. Upgrade to 19 later with pg_upgrade or a dump and restore. Do not run docker compose down -v as a fix: it can delete the database volume.",
         "code": "image: postgres:18",
-        "testedAt": "2026-10-30"
+        "testedAt": "2026-11-13"
       },
       "sources": [
         {
-          "label": "PostgreSQL: PostgreSQL 19 RC 1 released (15 October 2026), with the planned general availability date",
-          "href": "https://www.postgresql.org/about/news/postgresql-19-rc-1-released-3409/",
-          "checkedAt": "2026-10-19"
+          "label": "PostgreSQL: PostgreSQL 18.7, 17.12, 16.16, 15.20, 14.25, and 19 RC 2 released (12 November 2026), with the planned general availability date",
+          "href": "https://www.postgresql.org/about/news/postgresql-187-1712-1616-1520-1425-and-19-rc-2-released-3442/",
+          "checkedAt": "2026-11-13"
         },
         {
           "label": "Docker Hub: postgres official image, supported tags and the PGDATA change in 18 and above",
@@ -2209,16 +2335,17 @@
     {
       "id": "2026-11-02-macos-26-runners-openssl-4",
       "added": "2026-10-22",
-      "short": "macOS 26 runners: openssl becomes OpenSSL 4",
+      "short": "macOS 26 runners: OpenSSL 4 switch is overdue",
       "date": "2026-11-02",
       "dateEnd": "2026-11-08",
       "datePrecision": "window",
       "time": null,
-      "title": "GitHub's macOS 26 runners switch openssl to OpenSSL 4: checks for version 3 stop matching",
+      "overdue": "2026-11-09",
+      "title": "GitHub plans to switch openssl to OpenSSL 4 on macOS 26 runners: checks for version 3 will stop matching",
       "area": "CI runners",
-      "what": "From 2 November 2026, GitHub's new macOS 26 and Xcode 27 runner images run OpenSSL 4 when a workflow calls openssl without a path. The rollout is planned to finish by 8 November, \"subject to compatibility validation\". GitHub says: \"The default openssl command will change from OpenSSL 3.x to OpenSSL 4.x on macOS 26 Intel/Arm64 and Xcode 27 Arm64 runner images.\" We screened 2,202 candidate openssl calls in public workflows and replayed those we could using Linux builds of OpenSSL 3.5.9, 3.6.5 and 4.0.3, as a stand-in for macOS. Within this collected sample we identified three repositories whose steps are likely to behave differently; two check for \"OpenSSL 3\". We did not run those repositories' workflows. On a GitHub-hosted macOS 26 runner on 22 October we ran the version check itself: with OpenSSL 4.0.3 first on the path, a check for \"OpenSSL 3\" left out -legacy and an old-format .p12 could not be read. Executed by us; not independently reproduced.",
-      "affected": "GitHub Actions and Azure DevOps jobs on macos-latest, macos-26 (Arm64 or Intel, any size) or the Xcode 27 image that call openssl by name. macOS 14 and 15, Ubuntu and Windows images keep their OpenSSL defaults. Our scan identified 2,202 candidate calls in 1,027 active public repositories (pushed to since 21 April 2026 and not archived). These are scan counts: at least one candidate was actually pinned to OpenSSL 3. Using the same synthetic test files under OpenSSL 3.5.9, 3.6.5 and 4.0.3, we classified 1,825 calls as unchanged, 139 as printing different text, 66 as writing different files and one as failing; 171 could not be replayed. We counted a change only when 4.0.3 differed from both 3.x versions. We read every changed call and the steps after it. Three repositories have a step that is likely to behave differently. Two decide whether to pass -legacy for an Apple .p12 file by checking that openssl version starts with \"OpenSSL 3\"; on OpenSSL 4 the check fails and the flag is dropped. In our test an RC2-40 .p12, the old Apple format, could not be read without -legacy on 3.5.9, 3.6.5 or 4.0.3. The third reads openssl version -e, which OpenSSL 4 no longer has (\"Unknown option: -e\", because engines were removed), so the library path it sets comes out empty. Other changes reach fewer scripts. Key and certificate -text dumps print hex in a new layout, with no leading 00: and 16 bytes per row; the Subject, Issuer and OID lines we checked are unchanged. Self-signed certificates made with req -x509 no longer get an Authority Key Identifier, and a certificate signed with x509 -req -CA and -extfile gets no key identifiers at all unless the file asks for them. Python 3.13 in its default strict mode then rejected such a leaf (\"Missing Authority Key Identifier\") when its CA had a keyUsage extension; none of the 7 repositories we found using -extfile met both conditions. We replayed the calls on OpenSSL built on Linux with Homebrew's options, as a stand-in for the macOS packages; on a macOS runner we ran only the tests this entry describes, not the collected workflows or codesign. We read only the run: lines of public workflows, not the scripts they call, composite actions, private repositories or self-hosted runners. Code search caps its results, so this is an incomplete scan, not a census of affected repositories. Executed by us; not independently reproduced.",
-      "check": "From your repository root, list the lines that check for OpenSSL 3, read openssl version -e or sign with an extension file, as below, and run the same search on any scripts your workflows call. A version check can also be written another way, such as cutting the number out of openssl version, so read the steps that handle certificates, keys or .p12 files too. In the 2,080 public workflow files we collected for affected jobs, this search found the lines in all three repositories above. To try a step on OpenSSL 4 before the switch, call $(brew --prefix openssl@4)/bin/openssl on a macos-26 job: GitHub lists OpenSSL 4 as already installed on these images, and on the macos-26 and macos-latest runners we used on 22 October it was: version 4.0.3.",
+      "what": "GitHub has announced that on its macOS 26 and Xcode 27 runner images, a workflow that calls openssl without a path will get OpenSSL 4 instead of OpenSSL 3: \"The default openssl command will change from OpenSSL 3.x to OpenSSL 4.x on macOS 26 Intel/Arm64 and Xcode 27 Arm64 runner images.\" The rollout was \"planned to begin on November 2, 2026 and complete by November 8, 2026, subject to compatibility validation\". As of 9 November 2026 the switch has not happened. The software lists for the newest macOS 26 Arm64 and Xcode 27 images, published on 3 and 4 November, still give OpenSSL 3.5.9 as the default openssl, with OpenSSL 4.1.0 installed alongside it, and GitHub's image build script still sets OpenSSL 3 as the default. GitHub has not given a new date. We screened 2,202 candidate openssl calls in public workflows and replayed those we could using Linux builds of OpenSSL 3.5.9, 3.6.5 and 4.0.3, as a stand-in for macOS. Within this collected sample we identified three repositories whose steps are likely to behave differently; two check for \"OpenSSL 3\". We did not run those repositories' workflows. On a GitHub-hosted macOS 26 runner on 22 October we ran the version check itself: with OpenSSL 4.0.3 first on the path, a check for \"OpenSSL 3\" left out -legacy and an old-format .p12 could not be read. Executed by us; not independently reproduced.",
+      "affected": "GitHub Actions and Azure DevOps jobs on macos-latest, macos-26 (Arm64 or Intel, any size) or the Xcode 27 image that call openssl by name. macOS 14 and 15, Ubuntu and Windows images keep their OpenSSL defaults. Our scan identified 2,202 candidate calls in 1,027 active public repositories (pushed to since 21 April 2026 and not archived). These are scan counts: at least one candidate was actually pinned to OpenSSL 3. Using the same synthetic test files under OpenSSL 3.5.9, 3.6.5 and 4.0.3, we classified 1,825 calls as unchanged, 139 as printing different text, 66 as writing different files and one as failing; 171 could not be replayed. We counted a change only when 4.0.3 differed from both 3.x versions. We read every changed call and the steps after it. Three repositories have a step that is likely to behave differently. Two decide whether to pass -legacy for an Apple .p12 file by checking that openssl version starts with \"OpenSSL 3\"; on OpenSSL 4 the check fails and the flag is dropped. In our test an RC2-40 .p12, the old Apple format, could not be read without -legacy on 3.5.9, 3.6.5 or 4.0.3. The third reads openssl version -e, which OpenSSL 4 no longer has (\"Unknown option: -e\", because engines were removed), so the library path it sets comes out empty. Other changes reach fewer scripts. Key and certificate -text dumps print hex in a new layout, with no leading 00: and 16 bytes per row; the Subject, Issuer and OID lines we checked are unchanged. Self-signed certificates made with req -x509 no longer get an Authority Key Identifier, and a certificate signed with x509 -req -CA and -extfile gets no key identifiers at all unless the file asks for them. Python 3.13 in its default strict mode then rejected such a leaf (\"Missing Authority Key Identifier\") when its CA had a keyUsage extension; none of the 7 repositories we found using -extfile met both conditions. We replayed the calls on OpenSSL built on Linux with Homebrew's options, as a stand-in for the macOS packages; on a macOS runner we ran only the tests this entry describes, not the collected workflows or codesign. We read only the run: lines of public workflows, not the scripts they call, composite actions, private repositories or self-hosted runners. Code search caps its results, so this is an incomplete scan, not a census of affected repositories. Executed by us; not independently reproduced. Update, 9 November: these jobs are not affected until the switch happens. It did not happen in the planned 2–8 November window, and GitHub has not given a new date.",
+      "check": "From your repository root, list the lines that check for OpenSSL 3, read openssl version -e or sign with an extension file, as below, and run the same search on any scripts your workflows call. A version check can also be written another way, such as cutting the number out of openssl version, so read the steps that handle certificates, keys or .p12 files too. In the 2,080 public workflow files we collected for affected jobs, this search found the lines in all three repositories above. To try a step on OpenSSL 4 before the switch, call $(brew --prefix openssl@4)/bin/openssl on a macos-26 job: GitHub lists OpenSSL 4 as already installed on these images, and on the macos-26 and macos-latest runners we used on 22 October it was: version 4.0.3. The software lists for the images published on 3 and 4 November give version 4.1.0; our tests used 4.0.3.",
       "checkCode": "grep -rnE \\\n  -e 'grep.*OpenSSL 3' \\\n  -e 'openssl version -e' \\\n  -e '-extfile' .github",
       "fix": {
         "kind": "tested",
@@ -2230,7 +2357,22 @@
         {
           "label": "actions/runner-images issue 14856: The default OpenSSL version will be updated from 3 to 4 on macOS 26 and Xcode 27",
           "href": "https://github.com/actions/runner-images/issues/14856",
-          "checkedAt": "2026-10-22"
+          "checkedAt": "2026-11-09"
+        },
+        {
+          "label": "actions/runner-images: macOS 26 Arm64 image 20261102.0473 software list (OpenSSL 3.5.9 default; openssl@4 4.1.0)",
+          "href": "https://github.com/actions/runner-images/blob/macos-26-arm64/20261102.0473/images/macos/macos-26-arm64-Readme.md",
+          "checkedAt": "2026-11-09"
+        },
+        {
+          "label": "actions/runner-images: Xcode 27 Arm64 image 20261104.0337 software list (OpenSSL 3.5.9 default; openssl@4 4.1.0)",
+          "href": "https://github.com/actions/runner-images/blob/xcode-27-arm64/20261104.0337/images/macos/xcode-27-arm64-Readme.md",
+          "checkedAt": "2026-11-09"
+        },
+        {
+          "label": "actions/runner-images: install-openssl.sh on main (\"Set openssl@3 as the default OpenSSL\" for macOS 26)",
+          "href": "https://github.com/actions/runner-images/blob/main/images/macos/scripts/build/install-openssl.sh",
+          "checkedAt": "2026-11-09"
         },
         {
           "label": "actions/runner-images pull request 14825: Keep OpenSSL 3 as default alongside OpenSSL 4 (the default openssl points to openssl@3)",
@@ -2248,7 +2390,7 @@
           "checkedAt": "2026-10-22"
         },
         {
-          "label": "CyberNative AI note: macos-latest switches openssl to 4.x on November 2–8 (tests on a macOS 26 runner)",
+          "label": "CyberNative AI note on the macOS 26 OpenSSL 4 switch (tests on a macOS 26 runner, 22 October)",
           "href": "https://github.com/CyberNative-AI/.github/tree/main/notes/macos-26-openssl-4",
           "checkedAt": "2026-10-22"
         }
@@ -2270,7 +2412,7 @@
       "checkCode": "# Names removed in Chrome 157:\ngrep -rni -e texElementImage2D \\\n  -e copyElementImageToTexture \\\n  -e layoutsubtree .",
       "fix": {
         "kind": "tested",
-        "text": "Move to the API that Chrome 157 ships: mark the canvas with content=\"drawable\" in place of layoutsubtree, mark the element drawable, and draw it inside the canvas's paint event handler with drawElementImage (2D, below), texElementSubImage2D (WebGL) or drawElementImageToTexture (WebGPU). On 23 October 2026 we ran the code below exactly as printed: it drew its element with no error in Chrome 156 with the feature switched on, in Beta 157 and in Canary 158. In 157 and 158, drawElementImage returned no transform, so the code checks for one before using it; without that check, the element still draws but the page throws an error. Our WebGL and WebGPU test pages written the new way also drew in all three. For three.js, an open pull request (#34732, not merged on 23 October) moves HTMLTexture to the new API, and with it the texture drew in Chrome 157. On 23 October no release of the four engines had a fix, and we found no issue or pull request about it for PlayCanvas, Babylon.js or PixiJS. Update, 26 October 2026: PlayCanvas merged a fix into its main branch (pull request #9824) that uses the new names and keeps the old ones as a fallback. On 26 October it was not in a published release yet (the latest on npm was 2.23.3), so watch for the next PlayCanvas release. For Babylon.js, a forum moderator reproduced the blank texture in Chrome 157.0.8103.15 and opened a fix (pull request #19052, not merged on 26 October). The reply says the update() workaround stays valid until the fix ships. We have not tested either fix. Update, 28 October 2026: Babylon.js merged its fix (pull request #19052) on 27 October. Its latest release, 9.32.1, came out earlier that day, before the merge, so no Babylon.js release has the fix yet: keep the update() workaround until one does. PlayCanvas published 2.24.0-beta.24 on 28 October. That beta uses the new names; the latest stable release is still 2.23.3, and we have not tested the beta. For PixiJS, the fix in draft pull request #12341 drew the HTML texture in Chrome 157 and 158 on our test page, with WebGL and with WebGPU. It is not merged or released, and 8.22.0 stays blank. Update, 29 October 2026: Babylon.js 9.33.0, released on 29 October, includes the fix. On our test page its HtmlTexture with default settings drew in Chrome 157 and 158, so upgrade to 9.33.0 and drop the extra update() call; with 9.33.0 that early call only logs an \"HTML-in-Canvas: the native upload failed\" warning. For PlayCanvas, 2.24.0-beta.24 drew the HTML texture in Chrome 157 and 158 on our test page, with WebGL2 and with WebGPU, when the canvas has content=\"drawable\" and the element has drawable. With only the old layoutsubtree attribute, Chrome threw an InvalidStateError instead. The latest stable PlayCanvas release is still 2.23.3, which stays blank. PixiJS and three.js have no released fix yet. Update, 30 October 2026: three.js 0.187.0, released on 30 October, still uses only the old names. On our test page its HTMLTexture drew nothing in Chrome 157 and 158, with nothing in the console, and drew in Chrome 156 with the feature switched on, the same as 0.186. Upgrading three.js does not fix this yet: pull request #34732, which moves HTMLTexture to the new API, was still open on 30 October. Babylon.js 9.33.1, released on 29 October, has the same new-name code as 9.33.0; we read its build but did not run it. Update, 31 October 2026: PixiJS merged its fix (pull request #12341) on 30 October. On our test page, a PixiJS development build that includes the merged fix (8.22.0-dev.4fabfa6) drew the HTML texture in Chrome 157 and 158, with WebGL and with WebGPU, and also when the element sat one level deeper inside the canvas, with no error. On 30 October no PixiJS release had the fix yet (the latest on npm was 8.22.0), which stays blank, so watch for the next PixiJS release. For Babylon.js 9.32.0, a later run of the same test setup, on two added pages, found a workaround: calling the texture's update() yourself, once after creating it and again after each change to the element, made it draw in Chrome 157 and 158 on our small test page, through Babylon's SVG fallback rather than the new API (code and results are in our note, listed in the sources). This entry includes no workaround for PlayCanvas or PixiJS, so watch their releases. Executed by us; not independently reproduced. Update, 3 November 2026: Google promoted Chrome 157 to Stable (157.0.8103.38 for Linux, 157.0.8103.38/.39 for Windows and Mac), and the old names have not come back. We reran our test pages on Chrome 157.0.8103.38, the build Linux Stable serves, and every page gave the same result as in Beta 157 on 23 October: three.js 0.186.0, PlayCanvas 2.23.3 and Babylon.js 9.32.0 drew nothing and logged nothing, PixiJS 8.22.0 drew nothing and showed its error, and our test pages written with the new names drew, as did the three.js pull request (the 2D page, which has no transform check, still threw its error after drawing). On 3 November only Babylon.js had a release with the fix (9.33.0 and later). PixiJS's fix was merged but not released (the latest on npm was 8.22.0), PlayCanvas's was only in 2.24.0 beta builds (the latest release was 2.23.3), and three.js 0.187.0 still used the old names, with pull request #34732 still open. Executed by us; not independently reproduced.",
+        "text": "Move to the API that Chrome 157 ships: mark the canvas with content=\"drawable\" in place of layoutsubtree, mark the element drawable, and draw it inside the canvas's paint event handler with drawElementImage (2D, below), texElementSubImage2D (WebGL) or drawElementImageToTexture (WebGPU). On 23 October 2026 we ran the code below exactly as printed: it drew its element with no error in Chrome 156 with the feature switched on, in Beta 157 and in Canary 158. In 157 and 158, drawElementImage returned no transform, so the code checks for one before using it; without that check, the element still draws but the page throws an error. Our WebGL and WebGPU test pages written the new way also drew in all three. For three.js, an open pull request (#34732, not merged on 23 October) moves HTMLTexture to the new API, and with it the texture drew in Chrome 157. On 23 October no release of the four engines had a fix, and we found no issue or pull request about it for PlayCanvas, Babylon.js or PixiJS. Update, 26 October 2026: PlayCanvas merged a fix into its main branch (pull request #9824) that uses the new names and keeps the old ones as a fallback. On 26 October it was not in a published release yet (the latest on npm was 2.23.3), so watch for the next PlayCanvas release. For Babylon.js, a forum moderator reproduced the blank texture in Chrome 157.0.8103.15 and opened a fix (pull request #19052, not merged on 26 October). The reply says the update() workaround stays valid until the fix ships. We have not tested either fix. Update, 28 October 2026: Babylon.js merged its fix (pull request #19052) on 27 October. Its latest release, 9.32.1, came out earlier that day, before the merge, so no Babylon.js release has the fix yet: keep the update() workaround until one does. PlayCanvas published 2.24.0-beta.24 on 28 October. That beta uses the new names; the latest stable release is still 2.23.3, and we have not tested the beta. For PixiJS, the fix in draft pull request #12341 drew the HTML texture in Chrome 157 and 158 on our test page, with WebGL and with WebGPU. It is not merged or released, and 8.22.0 stays blank. Update, 29 October 2026: Babylon.js 9.33.0, released on 29 October, includes the fix. On our test page its HtmlTexture with default settings drew in Chrome 157 and 158, so upgrade to 9.33.0 and drop the extra update() call; with 9.33.0 that early call only logs an \"HTML-in-Canvas: the native upload failed\" warning. For PlayCanvas, 2.24.0-beta.24 drew the HTML texture in Chrome 157 and 158 on our test page, with WebGL2 and with WebGPU, when the canvas has content=\"drawable\" and the element has drawable. With only the old layoutsubtree attribute, Chrome threw an InvalidStateError instead. The latest stable PlayCanvas release is still 2.23.3, which stays blank. PixiJS and three.js have no released fix yet. Update, 30 October 2026: three.js 0.187.0, released on 30 October, still uses only the old names. On our test page its HTMLTexture drew nothing in Chrome 157 and 158, with nothing in the console, and drew in Chrome 156 with the feature switched on, the same as 0.186. Upgrading three.js does not fix this yet: pull request #34732, which moves HTMLTexture to the new API, was still open on 30 October. Babylon.js 9.33.1, released on 29 October, has the same new-name code as 9.33.0; we read its build but did not run it. Update, 31 October 2026: PixiJS merged its fix (pull request #12341) on 30 October. On our test page, a PixiJS development build that includes the merged fix (8.22.0-dev.4fabfa6) drew the HTML texture in Chrome 157 and 158, with WebGL and with WebGPU, and also when the element sat one level deeper inside the canvas, with no error. On 30 October no PixiJS release had the fix yet (the latest on npm was 8.22.0), which stays blank, so watch for the next PixiJS release. For Babylon.js 9.32.0, a later run of the same test setup, on two added pages, found a workaround: calling the texture's update() yourself, once after creating it and again after each change to the element, made it draw in Chrome 157 and 158 on our small test page, through Babylon's SVG fallback rather than the new API (code and results are in our note, listed in the sources). This entry includes no workaround for PlayCanvas or PixiJS, so watch their releases. Executed by us; not independently reproduced. Update, 3 November 2026: Google promoted Chrome 157 to Stable (157.0.8103.38 for Linux, 157.0.8103.38/.39 for Windows and Mac), and the old names have not come back. We reran our test pages on Chrome 157.0.8103.38, the build Linux Stable serves, and every page gave the same result as in Beta 157 on 23 October: three.js 0.186.0, PlayCanvas 2.23.3 and Babylon.js 9.32.0 drew nothing and logged nothing, PixiJS 8.22.0 drew nothing and showed its error, and our test pages written with the new names drew, as did the three.js pull request (the 2D page, which has no transform check, still threw its error after drawing). On 3 November only Babylon.js had a release with the fix (9.33.0 and later). PixiJS's fix was merged but not released (the latest on npm was 8.22.0), PlayCanvas's was only in 2.24.0 beta builds (the latest release was 2.23.3), and three.js 0.187.0 still used the old names, with pull request #34732 still open. Executed by us; not independently reproduced. Update, 10 November 2026: PlayCanvas 2.24.0, released on 9 November, includes the fix (pull request #9824). On our test page it drew the HTML texture in Chrome 157 (157.0.8103.15 and 157.0.8103.38, the Stable build from 3 November) and Chrome 158, with WebGL2 and with WebGPU, with nothing logged, when the canvas has content=\"drawable\" and the element has drawable, as in PlayCanvas's own example. With only the old layoutsubtree attribute it drew nothing, and Chrome threw an InvalidStateError saying the canvas needs the content=drawable attribute. So upgrade to 2.24.0 and change the markup as well. PlayCanvas 2.23.3 still draws nothing. On 10 November PixiJS's fix was still not in a release (the latest on npm was 8.22.0), and three.js pull request #34732 was still open, with 0.187.0 the latest release. Executed by us; not independently reproduced. Update, 12 November 2026: PixiJS 8.23.0, released on 11 November, includes the fix (pull request #12341). On our test pages it drew the HTML texture in Chrome 157 (157.0.8103.15 and 157.0.8103.38, the Stable build from 3 November) and Chrome 158, with WebGL and with WebGPU, with the element directly inside the canvas and nested one level, with nothing logged. PixiJS sets content=\"drawable\" on the canvas itself, so upgrading is enough; our pages needed no markup change. PixiJS 8.22.0 still draws nothing and throws its \"is not available\" error. Babylon.js, PlayCanvas and PixiJS now each have a release that drew on 157 in our test. three.js pull request #34732 was still open on 12 November, with 0.187.0 the latest release. Executed by us; not independently reproduced.",
         "code": "<canvas id=\"c\" content=\"drawable\">\n  <div id=\"el\" drawable>Hi</div>\n</canvas>\n<script>\nconst ctx = c.getContext('2d');\nc.onpaint = () => {\n  ctx.reset();\n  const t = ctx.drawElementImage(\n    el, 0, 0);\n  if (t) el.style.transform =\n    t.toString();\n};\nc.requestPaint();\n</script>",
         "testedAt": "2026-10-23"
       },
@@ -2313,17 +2455,22 @@
         {
           "label": "three.js pull request 34732: HTMLTexture on the new API (open)",
           "href": "https://github.com/mrdoob/three.js/pull/34732",
-          "checkedAt": "2026-11-03"
+          "checkedAt": "2026-11-12"
         },
         {
           "label": "CyberNative AI note: Chrome 157 HTML-in-Canvas tests (pages, raw results and the Babylon.js update() workaround)",
           "href": "https://github.com/CyberNative-AI/.github/tree/main/notes/chrome-157-html-in-canvas",
-          "checkedAt": "2026-11-03"
+          "checkedAt": "2026-11-12"
         },
         {
-          "label": "PlayCanvas pull request 9824: support the HTML-in-Canvas names shipping in Chrome 157 (merged into main; in beta 2.24.0-beta.24, not in a stable release)",
+          "label": "PlayCanvas pull request 9824: support the HTML-in-Canvas names shipping in Chrome 157 (merged 26 October 2026; released in 2.24.0 on 9 November 2026)",
           "href": "https://github.com/playcanvas/engine/pull/9824",
-          "checkedAt": "2026-10-30"
+          "checkedAt": "2026-11-10"
+        },
+        {
+          "label": "PlayCanvas 2.24.0 release notes (released 9 November 2026; lists pull request 9824)",
+          "href": "https://github.com/playcanvas/engine/releases/tag/v2.24.0",
+          "checkedAt": "2026-11-10"
         },
         {
           "label": "Babylon.js pull request 19052: fix HtmlTexture rendering with the current HTML-in-Canvas APIs (merged 27 October 2026; released in 9.33.0 on 29 October 2026)",
@@ -2341,9 +2488,14 @@
           "checkedAt": "2026-11-03"
         },
         {
-          "label": "PixiJS pull request 12341: support the new HTML-in-Canvas API (merged 30 October 2026; not in a release)",
+          "label": "PixiJS pull request 12341: support the new HTML-in-Canvas API (merged 30 October 2026; released in 8.23.0 on 11 November 2026)",
           "href": "https://github.com/pixijs/pixijs/pull/12341",
-          "checkedAt": "2026-10-30"
+          "checkedAt": "2026-11-12"
+        },
+        {
+          "label": "PixiJS 8.23.0 release notes (released 11 November 2026; lists pull request 12341)",
+          "href": "https://github.com/pixijs/pixijs/releases/tag/v8.23.0",
+          "checkedAt": "2026-11-12"
         },
         {
           "label": "CyberNative AI test result: PixiJS pull request 12341 in Chrome 157 and 158 (comment on PixiJS issue 12340)",
@@ -2363,7 +2515,7 @@
         {
           "label": "three.js 0.187.0 on npm (published 30 October 2026; old names only)",
           "href": "https://www.npmjs.com/package/three/v/0.187.0",
-          "checkedAt": "2026-11-03"
+          "checkedAt": "2026-11-12"
         },
         {
           "label": "PixiJS 8.22.0-dev.4fabfa6 on npm (development build with the merged fix, published 30 October 2026)",
@@ -2565,7 +2717,7 @@
       "time": null,
       "title": "Quad9 leaves France: a default AdGuard Home install stops resolving names there",
       "area": "DNS",
-      "what": "Quad9, the public DNS resolver at 9.9.9.9, announced on 22 October 2026 that it will withdraw its services from France as of Tuesday 24 November, because of a French court order. It has not said how: a user in France might get no answer, a refused connection or a refusal message. AdGuard Home's install wizard (v0.107.79; v0.107.80 of 3 November keeps the same defaults in its source) sets Quad9 as the only upstream DNS server and the only bootstrap DNS server, with no fallback. We ran that default configuration with Quad9 made unreachable in four ways (packets dropped, connections rejected, REFUSED answers, and HTTP 451 from its DNS-over-HTTPS address). From a fresh start, 0 of 20 names resolved in every case, each with SERVFAIL, in two runs. On a running server, names already in the cache kept working and new names failed. Executed by us; not independently reproduced.",
+      "what": "Quad9, the public DNS resolver at 9.9.9.9, announced on 22 October 2026 that it will withdraw its services from France as of Tuesday 24 November, because of a French court order. It has not said how: a user in France might get no answer, a refused connection or a refusal message. AdGuard Home's install wizard (v0.107.79; v0.107.80 of 3 November keeps the same defaults in its source) sets Quad9 as the only upstream DNS server and the only bootstrap DNS server, with no fallback. We ran that default configuration with Quad9 made unreachable in four ways (packets dropped, connections rejected, REFUSED answers, and HTTP 451 from its DNS-over-HTTPS address). From a fresh start, 0 of 20 names resolved in every case, each with SERVFAIL, in two runs. On a running server, names already in the cache kept working and new names failed. Executed by us; not independently reproduced. On 10 November AdGuard changed these defaults to Cloudflare DNS in its development source; no release had the change on 12 November. In that source the new defaults are used only when no servers are set, so an install that already has the wizard's Quad9 settings keeps them after it updates; AdGuard's changelog entry for the change recommends that people in France who have not changed their upstream and bootstrap (and possibly fallback) addresses do so. We read this in the source and did not test it.",
       "affected": "People in France who run AdGuard Home with the DNS settings its install wizard chose, and every device that uses it as its DNS server. A working system resolver on the same machine does not help, because AdGuard Home does not use it for these lookups. Two other setups still depend on Quad9. An upstream written as a hostname, such as https://cloudflare-dns.com/dns-query, with the default bootstrap servers kept working while it ran but resolved 0 of 20 names after a restart. Adding a fallback DNS server helps only partly: it rescued a fresh start, but on a running server new names still failed when Quad9 dropped packets (no answer within 5 seconds) or answered REFUSED (AdGuard Home passed the refusal on to clients). Any other resolver or device in France that sends its queries to Quad9 (9.9.9.9, 149.112.112.112 or dns.quad9.net) loses that service too; we tested only AdGuard Home. Of 685 public AdGuardHome.yaml files we read on GitHub, 120 (18%) use Quad9 as their only upstream, 80 of them with the wizard's settings unchanged; these are published configs, not a count of installs, and not specific to France. Router, NAS and add-on builds that include AdGuard Home may ship other defaults; we did not test them.",
       "check": "Open Settings, then DNS settings (in French: Paramètres, then Paramètres DNS), and read the Upstream DNS servers and Bootstrap DNS servers lists. You are affected if every general upstream server (a line without [/domain/] in front) is Quad9 (9.9.9.x, 149.112.112.x, 2620:fe:: addresses or a quad9.net name), or if your upstream servers are written as hostnames and every bootstrap server is a Quad9 address. If you manage the file instead, the command below prints the same lists from AdGuardHome.yaml (in the official Docker image it is in /opt/adguardhome/conf); if upstream_dns_file is set, the upstream list is in that file.",
       "checkCode": "# in AdGuardHome.yaml's folder:\nawk '/^  [a-z]+_dns(:|_file)/ {\n  p=1; print; next }\n  p && /^    - / { print; next }\n  { p=0 }' AdGuardHome.yaml",
@@ -2590,6 +2742,11 @@
           "label": "AdGuard Home v0.107.80 source: the same default upstream and bootstrap servers",
           "href": "https://github.com/AdguardTeam/AdGuardHome/blob/v0.107.80/internal/dnsforward/dnsforward.go#L46-L49",
           "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "AdGuard Home development source, 10 November: default upstream and bootstrap servers changed from Quad9 to Cloudflare DNS (changelog entry for issue 8686)",
+          "href": "https://github.com/AdguardTeam/AdGuardHome/commit/3cac53a48e9fd573c09e3088207c192e8f75b5cf",
+          "checkedAt": "2026-11-12"
         }
       ]
     },
@@ -2946,12 +3103,12 @@
       "title": "GitHub moves ubuntu-latest to Ubuntu 26.04: the default Java becomes 25, and Gradle 8 builds that don't choose a JDK can fail",
       "area": "CI runners",
       "what": "As ubuntu-latest moves to Ubuntu 26.04 (19 October to 19 November 2026), the runner's default Java changes from 17 to 25. GitHub's announcement table still lists 17 as the 26.04 default; the 26.04 image readme lists 25.0.5 (both read 2 November). Java 8 is not installed on 26.04. Gradle officially supports Java 25 from 9.1.0.",
-      "affected": "Jobs on ubuntu-latest that run Gradle without choosing a JDK (no actions/setup-java step and no JAVA_HOME setting) and use a Gradle 8.x or older wrapper, or a Kotlin Gradle plugin 2.1.0 or older. That includes flutter build apk and appbundle, which run the project's Android Gradle wrapper and compile Kotlin. In our container tests, Gradle 7.6.4, 8.5, 8.13 and 8.14.3 failed on Temurin 25 and passed on Temurin 17. Gradle 8.14.4 to 8.14.6, the last 8.x releases, carry a partial Java 25 fix: on Temurin 25.0.5 they passed with a Groovy build script (build.gradle) and still failed with a Kotlin one (build.gradle.kts), which new Flutter and Android projects use. The Groovy pass holds only for projects that compile no Kotlin or use Kotlin Gradle plugin 2.1.10 or later: with plugin 1.9.25, 2.0.21 or 2.1.0, compileKotlin failed on Gradle 8.14.6, and 2.0.21 and 2.1.0 failed on 9.1.0 too. With a Groovy build script on Gradle 8.14.3 or older the error is \"Unsupported class file major version 69\"; with a Kotlin build script, \"What went wrong\" shows only the Java version, such as 25.0.5; with an older Kotlin Gradle plugin, compileKotlin prints \"e: java.lang.IllegalArgumentException: 25.0.5\". In a sample of 1,094 recently active Java, Kotlin and Dart repositories, about 1 in 70 of those that build JVM code on ubuntu-latest would hit this, most of them Flutter apps (predicted, not run). A Gradle cache restored from a 24.04 run can hide the failure until a build script changes.",
+      "affected": "Jobs on ubuntu-latest that run Gradle without choosing a JDK (no actions/setup-java step and no JAVA_HOME setting) and use a Gradle 8.x or older wrapper, or a Kotlin Gradle plugin 2.1.0 or older. That includes flutter build apk and appbundle, which run the project's Android Gradle wrapper and compile Kotlin. In our container tests, Gradle 7.6.4, 8.5, 8.13 and 8.14.3 failed on Temurin 25 and passed on Temurin 17. Gradle 8.14.4 to 8.14.6, the last 8.x releases, carry a partial Java 25 fix: on Temurin 25.0.5 they passed with a Groovy build script (build.gradle) and still failed with a Kotlin one (build.gradle.kts), which new Flutter and Android projects use. The Groovy pass holds only for projects that compile no Kotlin or use Kotlin Gradle plugin 2.1.10 or later: with plugin 1.9.25, 2.0.21 or 2.1.0, compileKotlin failed on Gradle 8.14.6, and 2.0.21 and 2.1.0 failed on 9.1.0 too. With a Groovy build script on Gradle 8.14.3 or older the error is \"Unsupported class file major version 69\"; with a Kotlin build script, \"What went wrong\" shows only the Java version, such as 25.0.5; with an older Kotlin Gradle plugin, compileKotlin prints \"e: java.lang.IllegalArgumentException: 25.0.5\". In a sample of 1,094 recently active Java, Kotlin and Dart repositories, about 1 in 70 of those that build JVM code on ubuntu-latest would hit this, most of them Flutter apps (predicted, not run). A Gradle cache restored from a 24.04 run can hide the failure until a build script changes. Update, 8 November: a build that asks Gradle for a Java 8 toolchain (languageVersion = JavaLanguageVersion.of(8), or jvmToolchain(8) in Kotlin) fails on 26.04, even in a job that chooses a JDK, unless Gradle can use a Java 8: one the job installs, or one that a configured toolchain download plugin fetches. 26.04 has no Java 8 of its own. Pointing JAVA_HOME at 17, installing only 17 with actions/setup-java, or moving to a newer Gradle does not supply one. Without a download plugin, Gradle stops with \"Cannot find a Java installation on your machine … matching: {languageVersion=8, …}. Toolchain download repositories have not been configured.\"",
       "check": "Run these at the repository root. The first prints the workflow lines that name ubuntu-latest, setup-java or JAVA_HOME, so you can match them to jobs; the second prints each Gradle wrapper's version with its file (a wrapper in a plugin or example folder is not your app's); the third lists Kotlin build scripts; the fourth prints the lines that set a Kotlin Gradle plugin version. A ubuntu-latest job with no setup-java or JAVA_HOME line is likely to fail if its wrapper is 8.14.3 or older, or 8.14.4 to 8.14.6 with a Kotlin build script, or if it uses a Kotlin Gradle plugin 2.1.0 or older on any Gradle version (1.9.25, 2.0.21 and 2.1.0 failed in our tests; 2.1.10, 2.1.20, 2.1.21 and 2.2.20 passed; other versions were not tested). These greps miss a JDK chosen in a reusable workflow or a composite action, and a Kotlin version set somewhere other than these build files.",
       "checkCode": "grep -rnE 'ubuntu-latest|setup-java|JAVA_HOME' .github/workflows\ngrep -r --include=gradle-wrapper.properties distributionUrl .\nfind . -name '*.gradle.kts' -not -path '*/node_modules/*'\ngrep -rnE --include='*.gradle' --include='*.gradle.kts' --include='*.toml' --exclude-dir=node_modules 'org\\.jetbrains\\.kotlin|kotlin_version|kotlin\\(\"|^kotlin *=' .",
       "fix": {
         "kind": "tested",
-        "text": "Choose Java 17 again in the job: Java 17 is still installed on 26.04, so one step that points JAVA_HOME at it is enough, or use actions/setup-java with Temurin 17 (we did not run this route). Two public projects whose ./gradlew help passed on 17 and failed on 25 passed again with only JAVA_HOME pointed at 17. The longer-term fix is a Gradle 9.1 or later wrapper and, for projects that compile Kotlin, Kotlin Gradle plugin 2.1.10 or later: on Temurin 25.0.5, Gradle 9.1.0 passed with both Groovy and Kotlin build scripts and with plugin 2.1.10 or 2.1.21, and failed with plugin 2.0.21 or 2.1.0. Executed by us in containers, not on a hosted runner; Maven and sbt builds, the Android Gradle plugin and Flutter itself were not tested; not independently reproduced.",
+        "text": "Choose Java 17 again in the job: Java 17 is still installed on 26.04, so one step that points JAVA_HOME at it is enough, or use actions/setup-java with Temurin 17 (we did not run this route). Two public projects whose ./gradlew help passed on 17 and failed on 25 passed again with only JAVA_HOME pointed at 17. The longer-term fix is a Gradle 9.1 or later wrapper and, for projects that compile Kotlin, Kotlin Gradle plugin 2.1.10 or later: on Temurin 25.0.5, Gradle 9.1.0 passed with both Groovy and Kotlin build scripts and with plugin 2.1.10 or 2.1.21, and failed with plugin 2.0.21 or 2.1.0. Executed by us in containers, not on a hosted runner; Maven and sbt builds, the Android Gradle plugin and Flutter itself were not tested; not independently reproduced. Update, 8 November: a build that asks for a Java 8 toolchain needs Java 8 in the job. On GitHub's hosted ubuntu-26.04 runner, installing 8 and 17 with actions/setup-java (17 listed last, so it becomes JAVA_HOME) built Java 8 class files; pointing JAVA_HOME at 17, or installing only 17, failed with the toolchain error.",
         "code": "# One step: Java 17 is still installed on 26.04\n- run: echo \"JAVA_HOME=$JAVA_HOME_17_X64\" >> \"$GITHUB_ENV\"\n# Or\n- uses: actions/setup-java@v6\n  with:\n    distribution: temurin\n    java-version: '17'",
         "testedAt": "2026-11-02",
         "href": null,
@@ -2977,8 +3134,18 @@
           "label": "Gradle 8.14.4 release notes: \"[Backport] Improve Java 25 support in Gradle 8.14\" (#36420)",
           "href": "https://docs.gradle.org/8.14.4/release-notes.html",
           "checkedAt": "2026-11-02"
+        },
+        {
+          "label": "Netflix/genie pull request #1265: a Java 8 toolchain build that failed on 26.04 with \"Cannot find a Java installation\", fixed by installing 8 and 17 with setup-java",
+          "href": "https://github.com/Netflix/genie/pull/1265",
+          "checkedAt": "2026-11-08"
         }
-      ]
+      ],
+      "see": {
+        "lead": "The exact errors, a repository check, and tested GitHub Actions and Azure Pipelines fixes, including for Java 8 toolchain builds, are in",
+        "href": "/guides/ubuntu-latest-26-04-java-25-unsupported-class-file-major-version-69/",
+        "label": "our ubuntu-latest Java 25 guide."
+      }
     },
     {
       "id": "2027-01-06-openai-removes-text-to-speech-models",
@@ -2991,8 +3158,8 @@
       "title": "OpenAI shuts down its text-to-speech models, and its Speech endpoint has no model left to use",
       "area": "AI APIs",
       "what": "On 1 October 2026 OpenAI announced that tts-1, tts-1-hd and gpt-4o-mini-tts (including the gpt-4o-mini-tts-2025-03-20 and gpt-4o-mini-tts-2025-12-15 snapshots) will be removed from the API on 6 January 2027. These are the only models that OpenAI's API reference lists for the Speech endpoint, POST /v1/audio/speech. The recommended replacement, gpt-realtime-2.1-mini, is not a supported model for that endpoint. OpenAI's text-to-speech guide calls the move \"a change of API workflow\" to the Realtime API. Changing the model name is not enough: the call has to be rewritten.",
-      "affected": "Code that sends speech requests to OpenAI’s API: POST /v1/audio/speech, or client.audio.speech.create in OpenAI's Python and Node SDKs, or the matching calls in its Go, Java, .NET (AudioClient.GenerateSpeech) and Ruby SDKs, with any of these models. That includes apps and plugins that offer OpenAI as a text-to-speech provider. Self-hosted servers that copy OpenAI's /v1/audio/speech route and model names and generate the audio themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule gives its own dates for these models, and its date for tts and tts-hd, 15 December 2026, is earlier.",
-      "check": "In this order: (1) look at your organization's audio speech usage, which shows the calls that actually ran: OpenAI's Usage API has an audio speeches endpoint (it needs an admin key) that can group usage by model; (2) search your code and configuration with the command below; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that generates the audio itself are not, but a gateway or proxy that forwards them to OpenAI is still affected. A hit that only defines the route or lists model names, as in a server that offers the endpoint, is not a request. The command searches your own files and skips node_modules; it ignores case and also finds OpenAI's Go, Java and Ruby SDK calls and model constants, such as client.Audio.Speech.New and openai.SpeechModelGPT4oMiniTTS. No output does not clear you: a framework can send gpt-4o-mini-tts by default without your code naming it, for example Pipecat's OpenAITTSService or the OpenAI Agents SDK voice pipeline. Search for the speech class your framework uses, or rely on step 1. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
+      "affected": "Code that sends speech requests to OpenAI’s API: POST /v1/audio/speech, or client.audio.speech.create in OpenAI's Python and Node SDKs, or the matching calls in its Go, Java, .NET (AudioClient.GenerateSpeech) and Ruby SDKs, with any of these models. That includes apps and plugins that offer OpenAI as a text-to-speech provider. Self-hosted servers that copy OpenAI's /v1/audio/speech route and model names and generate the audio themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule gives its own dates for these models, and its date for tts and tts-hd, 15 December 2026, is earlier. Update, 8 November: in the latest releases we read on 8 November, more libraries and apps send one of these models when you don't choose one: LiveKit's OpenAI plugin (openai.TTS uses gpt-4o-mini-tts in Python 1.8.11 and tts-1 in JavaScript 1.9.5), Mastra's OpenAIVoice, agno's OpenAITools, griptape's OpenAiTextToSpeechDriver, RealtimeTTS's OpenAIEngine, camel-ai's OpenAIAudioModels, deepeval's OpenAITTSModel and bolna's OPENAISynthesizer, as well as Home Assistant 2026.11.0's OpenAI integration, which suggests gpt-4o-mini-tts for a new text-to-speech entity, and Open WebUI 0.13.2 with its text-to-speech engine set to OpenAI. Each of them calls the Speech endpoint, so a new model name won't fix them: the way out is a different text-to-speech class, engine or provider. The library list at the end of this entry gives each one's file and line. We read the code; we did not call the API.",
+      "check": "In this order: (1) look at your organization's audio speech usage, which shows the calls that actually ran: OpenAI's Usage API has an audio speeches endpoint (it needs an admin key) that can group usage by model; (2) search your code and configuration with the command below; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that generates the audio itself are not, but a gateway or proxy that forwards them to OpenAI is still affected. A hit that only defines the route or lists model names, as in a server that offers the endpoint, is not a request. The command searches your own files and skips node_modules; it ignores case and also finds OpenAI's Go, Java and Ruby SDK calls and model constants, such as client.Audio.Speech.New and openai.SpeechModelGPT4oMiniTTS. No output does not clear you: a library can send tts-1 or gpt-4o-mini-tts by default without your code naming it, for example Pipecat's OpenAITTSService, the OpenAI Agents SDK voice pipeline, LiveKit's openai.TTS() or Mastra's OpenAIVoice; the library list at the end of this entry names the others. Search for the speech class your framework uses, or rely on step 1. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
       "checkCode": "grep -rniE --exclude-dir=node_modules --exclude-dir=.git \\\n  -e 'audio(\\(\\))?[./:]speech([^A-Za-z0-9_]|$)' \\\n  -e '(^|[^A-Za-z0-9_.-])(tts-1(-hd)?|gpt-4o-mini-tts(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?)([^A-Za-z0-9_.-]|$)' \\\n  -e 'SpeechModel(\\.|::)?(tts_?1(_?hd)?|gpt_?4o_?mini_?tts)' .",
       "leadDays": 30,
       "fix": {
@@ -3005,7 +3172,7 @@
         {
           "label": "OpenAI deprecations: 2026-10-01 Text-to-speech models",
           "href": "https://developers.openai.com/api/docs/deprecations",
-          "checkedAt": "2026-11-02"
+          "checkedAt": "2026-11-08"
         },
         {
           "label": "OpenAI text-to-speech guide",
@@ -3032,6 +3199,158 @@
           "href": "https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/usage/methods/audio_speeches",
           "checkedAt": "2026-11-02"
         }
+      ],
+      "packagesNote": "Paths are relative to site-packages for Python packages and to the package folder in node_modules for npm packages, with line numbers from the version we read on 8 November 2026; they can move in later releases. We read the latest release of 41 voice and agent libraries and apps, and of the 124 packages among the 8,000 most-downloaded on PyPI that depend on OpenAI's Python SDK, so other libraries can do the same. Listed: the packages that two independent readings of the code, made without seeing each other's labels, marked as sending one of these models when you don't choose one; for Open WebUI the two readings differed, and tracing the code settled it.",
+      "packages": [
+        {
+          "package": "livekit-plugins-openai",
+          "version": "1.8.11",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-tts",
+          "role": "openai.TTS() without model=",
+          "fileLine": "livekit/plugins/openai/tts.py:42",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@livekit/agents-plugin-openai",
+          "version": "1.9.5",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "openai.TTS without a model option",
+          "fileLine": "dist/tts.js:7",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "pipecat-ai",
+          "version": "1.15.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-tts",
+          "role": "OpenAITTSService without a model setting",
+          "fileLine": "pipecat/services/openai/tts.py:181",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "openai-agents",
+          "version": "0.24.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-tts",
+          "role": "voice pipeline text-to-speech default",
+          "fileLine": "agents/voice/models/openai_model_provider.py:32",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@mastra/voice-openai",
+          "version": "0.13.4",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OpenAIVoice speak() without a speechModel",
+          "fileLine": "dist/index.js:390",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "agno",
+          "version": "3.1.12",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OpenAITools speech tool (on by default)",
+          "fileLine": "agno/tools/openai.py:51",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "griptape",
+          "version": "1.13.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OpenAiTextToSpeechDriver without model=",
+          "fileLine": "griptape/drivers/text_to_speech/openai_text_to_speech_driver.py:18",
+          "also": [
+            {
+              "modelId": "tts-1",
+              "role": "OpenAiDriversConfig text-to-speech driver",
+              "fileLine": "griptape/configs/drivers/openai_drivers_config.py:33"
+            }
+          ],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "RealtimeTTS",
+          "version": "0.8.10",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OpenAIEngine() without model=",
+          "fileLine": "RealtimeTTS/engines/openai_engine.py:24",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "camel-ai",
+          "version": "0.2.90",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OpenAIAudioModels.text_to_speech without model_type",
+          "fileLine": "camel/models/openai_audio_models.py:56",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "deepeval",
+          "version": "4.3.3",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-tts",
+          "role": "OpenAITTSModel() without model=",
+          "fileLine": "deepeval/models/tts/openai/openai.py:15",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "bolna",
+          "version": "0.11.32",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "OPENAISynthesizer built directly without model=",
+          "fileLine": "bolna/synthesizer/openai_synthesizer.py:25",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "Only when the class is built directly: bolna's agent configuration requires a model."
+        },
+        {
+          "package": "homeassistant",
+          "version": "2026.11.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-tts",
+          "role": "OpenAI integration: model suggested for a new text-to-speech entity",
+          "fileLine": "homeassistant/components/openai_conversation/const.py:128",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "open-webui",
+          "version": "0.13.2",
+          "versionReadOn": "2026-11-08",
+          "modelId": "tts-1",
+          "role": "Admin Settings, Audio: text-to-speech engine set to OpenAI",
+          "fileLine": "open_webui/config.py:1644",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "Default of AUDIO_TTS_MODEL; the admin screen fills in the same model when you pick the OpenAI engine. The same screen also offers an OpenAI Realtime engine."
+        }
       ]
     },
     {
@@ -3045,8 +3364,8 @@
       "title": "OpenAI shuts down whisper-1 and the GPT-4o transcription models; its guides name no current model for timestamps, subtitle files or speaker labels",
       "area": "AI APIs",
       "what": "OpenAI's deprecations page says it notified developers on 26 August 2026 that whisper-1, gpt-4o-transcribe, gpt-4o-mini-transcribe and gpt-4o-transcribe-diarize will be removed from the API on 26 February 2027, with gpt-transcribe or gpt-live-transcribe as replacements. The page's table now also lists, for the same date, the gpt-4o-mini-transcribe-2025-12-15 snapshot and the translations endpoint, POST /v1/audio/translations, whose listed replacement is Realtime translation at v1/realtime/translations; archived copies show the endpoint row was added in mid-October 2026. OpenAI's quickstart sends recorded audio to the same transcriptions endpoint with gpt-transcribe. For word or segment timestamps, OpenAI's speech-to-text guide says existing integrations can use whisper-1 until 26 February 2027 and that timestamp_granularities is only supported for whisper-1; it says its examples for speaker labels and subtitle formats use deprecated models. Its realtime transcription guide says gpt-live-transcribe doesn't return word-level timestamps or speaker labels. Neither guide names a current model for timestamps, subtitle files (srt, vtt) or speaker labels.",
-      "affected": "Code that sends transcription or translation requests to OpenAI's API: POST /v1/audio/transcriptions or /v1/audio/translations, or client.audio.transcriptions.create and client.audio.translations.create in OpenAI's Python and Node SDKs, or the matching calls in its Go, Java, .NET (AudioClient.TranscribeAudio and TranslateAudio) and Ruby SDKs, with any of these models. That includes apps and plugins that offer OpenAI as a speech-to-text provider. Realtime sessions that use these models to transcribe input audio (the transcription setting under audio.input, or input_audio_transcription) are affected too, including those started by the OpenAI Agents SDK, which uses gpt-4o-mini-transcribe there when the app sets no transcription model. LiveKit Agents' OpenAI plugin also uses gpt-4o-mini-transcribe by default, both in its realtime model's input transcription and in its STT class. Callers that ask for timestamps (timestamp_granularities), srt or vtt output, speaker labels or translation into English need more than a new model name. A call pinned to the older gpt-4o-mini-transcribe-2025-03-20 snapshot stops earlier, on 20 January 2027, under OpenAI's separate 20 July 2026 notice. Self-hosted servers that copy OpenAI's routes and model names and transcribe the audio themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule gives its own dates for these models, and its date for whisper, 15 December 2026, is earlier.",
-      "check": "In this order: (1) look at your organization's audio transcription usage, which shows the calls that actually ran: OpenAI's Usage API has an audio transcriptions endpoint (it needs an admin key) that can group usage by model (its reference doesn't say whether translations calls or Realtime transcription are counted there); (2) search your code and configuration with the command below; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that transcribes the audio itself are not, but a gateway or proxy that forwards them to OpenAI is still affected; (4) for each affected call, look for timestamp_granularities, response_format srt, vtt, verbose_json or diarized_json (the Go, Java and .NET SDKs spell these their own way, such as TimestampGranularities and AudioResponseFormatVerboseJSON in Go, timestampGranularities and AudioResponseFormat.VERBOSE_JSON in Java, AudioTimestampGranularities and AudioTranscriptionFormat.Verbose in .NET), and translations calls. OpenAI names no current model for the first group. A translations call has a named replacement, Realtime translation, but it is a different API that streams audio through a session: OpenAI says changing only the model ID doesn't migrate it. Calls that already use gpt-transcribe also match the endpoint pattern; they are affected only if they rely on the features in step 4. The command searches your own files and skips node_modules; it ignores case and also finds OpenAI's Go, Java and Ruby SDK calls and model constants, such as openai.AudioModelWhisper1 and AudioModel.WHISPER_1. No output does not clear you: a framework can send one of these models by default without your code naming it; for example, the OpenAI Agents SDK's realtime sessions transcribe input audio with gpt-4o-mini-transcribe unless you set a transcription model, and LiveKit Agents' openai.STT() does the same unless you pass a model, as does openai.realtime.RealtimeModel() unless you set input_audio_transcription. Search for the realtime or speech-to-text class your framework uses, or check its default model settings. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
+      "affected": "Code that sends transcription or translation requests to OpenAI's API: POST /v1/audio/transcriptions or /v1/audio/translations, or client.audio.transcriptions.create and client.audio.translations.create in OpenAI's Python and Node SDKs, or the matching calls in its Go, Java, .NET (AudioClient.TranscribeAudio and TranslateAudio) and Ruby SDKs, with any of these models. That includes apps and plugins that offer OpenAI as a speech-to-text provider. Realtime sessions that use these models to transcribe input audio (the transcription setting under audio.input, or input_audio_transcription) are affected too, including those started by the OpenAI Agents SDK, which uses gpt-4o-mini-transcribe there when the app sets no transcription model. LiveKit Agents for Python also uses gpt-4o-mini-transcribe by default, both in its OpenAI realtime model's input transcription and in the OpenAI plugin's STT class. Callers that ask for timestamps (timestamp_granularities), srt or vtt output, speaker labels or translation into English need more than a new model name. A call pinned to the older gpt-4o-mini-transcribe-2025-03-20 snapshot stops earlier, on 20 January 2027, under OpenAI's separate 20 July 2026 notice. Self-hosted servers that copy OpenAI's routes and model names and transcribe the audio themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule gives its own dates for these models, and its date for whisper, 15 December 2026, is earlier. Update, 8 November: in the latest releases we read on 8 November, more libraries and apps send one of these models when you don't choose one. Most let you set the model: agno's OpenAITools, griptape's OpenAiDriversConfig, LangChain's OpenAIWhisperParser (Python) and OpenAIWhisperAudio (JavaScript), LlamaIndex's WhisperReader, SpeechRecognition's recognize_openai, Mastra's OpenAIVoice and OpenAIRealtimeVoice, deepeval's OpenAISTTModel, bolna's OpenAIRealtimeS2S, and the speech-to-text entity in Home Assistant 2026.11.0's OpenAI integration. Three hard-code whisper-1 with no setting to change it: aider's /voice command (0.86.2), camel-ai's OpenAIAudioModels.speech_to_text (0.2.90) and vocode's turn-based WhisperTranscriber (0.1.113, released in 2024). LiveKit's JavaScript plugin (1.9.5) differs from the Python one: its openai.STT uses the realtime model gpt-realtime-whisper by default and sends whisper-1 only with useRealtime: false. The library list at the end of this entry gives each one's file and line. We read the code; we did not call the API.",
+      "check": "In this order: (1) look at your organization's audio transcription usage, which shows the calls that actually ran: OpenAI's Usage API has an audio transcriptions endpoint (it needs an admin key) that can group usage by model (its reference doesn't say whether translations calls or Realtime transcription are counted there); (2) search your code and configuration with the command below; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that transcribes the audio itself are not, but a gateway or proxy that forwards them to OpenAI is still affected; (4) for each affected call, look for timestamp_granularities, response_format srt, vtt, verbose_json or diarized_json (the Go, Java and .NET SDKs spell these their own way, such as TimestampGranularities and AudioResponseFormatVerboseJSON in Go, timestampGranularities and AudioResponseFormat.VERBOSE_JSON in Java, AudioTimestampGranularities and AudioTranscriptionFormat.Verbose in .NET), and translations calls. OpenAI names no current model for the first group. A translations call has a named replacement, Realtime translation, but it is a different API that streams audio through a session: OpenAI says changing only the model ID doesn't migrate it. Calls that already use gpt-transcribe also match the endpoint pattern; they are affected only if they rely on the features in step 4. The command searches your own files and skips node_modules; it ignores case and also finds OpenAI's Go, Java and Ruby SDK calls and model constants, such as openai.AudioModelWhisper1 and AudioModel.WHISPER_1. No output does not clear you: a library can send one of these models by default without your code naming it; for example, the OpenAI Agents SDK's realtime sessions transcribe input audio with gpt-4o-mini-transcribe unless you set a transcription model, and in Python LiveKit Agents' openai.STT() does the same unless you pass a model, as does openai.realtime.RealtimeModel() unless you set input_audio_transcription. The library list at the end of this entry names the others. Search for the realtime or speech-to-text class your framework uses, or check its default model settings. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
       "checkCode": "grep -rniE --exclude-dir=node_modules --exclude-dir=.git \\\n  -e 'audio(\\(\\))?[./:](transcriptions|translations)' \\\n  -e '(^|[^A-Za-z0-9_.-])(whisper-1|gpt-4o(-mini)?-transcribe(-diarize)?(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?)([^A-Za-z0-9_.-]|$)' \\\n  -e 'AudioModel(\\.|::)?(whisper_?1|gpt_?4o_?(mini_?)?transcribe)' .",
       "leadDays": 30,
       "fix": {
@@ -3059,7 +3378,7 @@
         {
           "label": "OpenAI deprecations: 2026-08-26 Transcription models",
           "href": "https://developers.openai.com/api/docs/deprecations",
-          "checkedAt": "2026-11-02"
+          "checkedAt": "2026-11-08"
         },
         {
           "label": "OpenAI speech-to-text guide",
@@ -3096,6 +3415,218 @@
           "href": "https://web.archive.org/web/20261015061724/https://developers.openai.com/api/docs/deprecations",
           "checkedAt": "2026-11-02"
         }
+      ],
+      "packagesNote": "Paths are relative to site-packages for Python packages and to the package folder in node_modules for npm packages, with line numbers from the version we read on 8 November 2026; they can move in later releases. We read the latest release of 41 voice and agent libraries and apps, and of the 124 packages among the 8,000 most-downloaded on PyPI that depend on OpenAI's Python SDK, so other libraries can do the same. Listed: the packages that two independent readings of the code, made without seeing each other's labels, marked as sending one of these models when you don't choose one.",
+      "packages": [
+        {
+          "package": "livekit-plugins-openai",
+          "version": "1.8.11",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "openai.STT() without model=",
+          "fileLine": "livekit/plugins/openai/stt.py:194",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "livekit-agents",
+          "version": "1.8.11",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "OpenAI realtime model's input transcription when input_audio_transcription is not set",
+          "fileLine": "livekit/agents/llm/_realtime/openai_utils.py:46",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@livekit/agents-plugin-openai",
+          "version": "1.9.5",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "openai.STT with useRealtime: false and no model",
+          "fileLine": "dist/stt.js:209",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "With the default useRealtime: true it uses gpt-realtime-whisper, which is not on this list."
+        },
+        {
+          "package": "openai-agents",
+          "version": "0.24.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "realtime session input transcription without a transcription model",
+          "fileLine": "agents/realtime/openai_realtime.py:176",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@openai/agents-realtime",
+          "version": "0.21.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "realtime session input transcription without a transcription model",
+          "fileLine": "dist/openaiRealtimeBase.js:29",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@mastra/voice-openai",
+          "version": "0.13.4",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAIVoice listen() without a listeningModel",
+          "fileLine": "dist/index.js:394",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@mastra/voice-openai-realtime",
+          "version": "0.14.8",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAIRealtimeVoice input transcription without a transcriber option",
+          "fileLine": "dist/index.js:425",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "agno",
+          "version": "3.1.12",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAITools transcription without transcription_model=",
+          "fileLine": "agno/tools/openai.py:49",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "griptape",
+          "version": "1.13.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAiDriversConfig audio transcription driver",
+          "fileLine": "griptape/configs/drivers/openai_drivers_config.py:37",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "langchain-community",
+          "version": "0.4.2",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAIWhisperParser without model=",
+          "fileLine": "langchain_community/document_loaders/parsers/audio.py:252",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "@langchain/community",
+          "version": "1.1.29",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAIWhisperAudio loader without transcriptionCreateParams.model",
+          "fileLine": "dist/document_loaders/fs/openai_whisper_audio.js:7",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "llama-index-readers-whisper",
+          "version": "0.5.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "WhisperReader without model=",
+          "fileLine": "llama_index/readers/whisper/base.py:33",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "SpeechRecognition",
+          "version": "3.17.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "Recognizer.recognize_openai without model=",
+          "fileLine": "speech_recognition/recognizers/whisper_api/openai.py:38",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "The model parameter's type lists whisper-1 and the GPT-4o transcription models only, so a type checker flags gpt-transcribe; the module's command line rejects it."
+        },
+        {
+          "package": "deepeval",
+          "version": "4.3.3",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-transcribe",
+          "role": "OpenAISTTModel() without model=",
+          "fileLine": "deepeval/models/stt/openai/openai.py:20",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "bolna",
+          "version": "0.11.32",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "OpenAIRealtimeS2S input transcription without transcription_model",
+          "fileLine": "bolna/s2s/openai_realtime_s2s.py:64",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "homeassistant",
+          "version": "2026.11.0",
+          "versionReadOn": "2026-11-08",
+          "modelId": "gpt-4o-mini-transcribe",
+          "role": "OpenAI integration: model suggested for the speech-to-text entity",
+          "fileLine": "homeassistant/components/openai_conversation/const.py:51",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "The model field accepts another name. Home Assistant's development branch already suggests gpt-transcribe; that is not in 2026.11.0."
+        },
+        {
+          "package": "aider-chat",
+          "version": "0.86.2",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "/voice command (hard-coded, no setting)",
+          "fileLine": "aider/voice.py:170",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "camel-ai",
+          "version": "0.2.90",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "OpenAIAudioModels.speech_to_text, including translate_into_english (hard-coded)",
+          "fileLine": "camel/models/openai_audio_models.py:248",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": null
+        },
+        {
+          "package": "vocode",
+          "version": "0.1.113",
+          "versionReadOn": "2026-11-08",
+          "modelId": "whisper-1",
+          "role": "turn-based WhisperTranscriber (hard-coded)",
+          "fileLine": "vocode/turn_based/transcriber/whisper_transcriber.py:23",
+          "also": [],
+          "usesNamedSnapshot": false,
+          "note": "Released in June 2024; it is still the latest version on PyPI."
+        }
       ]
     },
     {
@@ -3109,8 +3640,8 @@
       "title": "OpenAI removes gpt-realtime and its older audio models, and LiveKit's OpenAI RealtimeModel still asks for gpt-realtime by default",
       "area": "AI APIs",
       "what": "On 20 July 2026 OpenAI announced that these models will be removed from the API on 20 January 2027: gpt-realtime and gpt-realtime-2025-08-28 (replacement gpt-realtime-2.1); gpt-4o-realtime (gpt-realtime-2.1); gpt-realtime-mini and gpt-realtime-mini-2025-12-15, and gpt-4o-mini-realtime (gpt-realtime-2.1-mini); gpt-audio, gpt-audio-mini, gpt-4o-audio and gpt-4o-mini-audio (gpt-audio-1.5); and the gpt-4o-mini-transcribe-2025-03-20 snapshot. OpenAI's model pages already mark every gpt-4o realtime and audio preview model in those families as shut down (OpenAI set 7 May 2026 for them), so code that still requests one of those has a problem today, not on 20 January. Each one has a named replacement, so for most callers the fix is a new model name. The risk is a framework that picks the model for you: in LiveKit Agents 1.8.10 (released 28 October 2026), openai.realtime.RealtimeModel() with no model argument requests gpt-realtime.",
-      "affected": "Code that requests any of these models from OpenAI's API, in Realtime sessions or anywhere else, including LiveKit voice agents that use openai.realtime.RealtimeModel without a model argument. In their releases read on 3 November, the OpenAI Agents SDK (0.24.0) and Pipecat (1.15.0) already default to gpt-realtime-2.1. Self-hosted servers that copy OpenAI's model names and run the model themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule retires gpt-realtime 2025-08-28 on 2 March 2027.",
-      "check": "In this order: (1) search your code and configuration with the command below; (2) for each LiveKit openai.realtime.RealtimeModel( line it prints, and each RealtimeModel( call in a file where it prints the import line, look for a model argument: without one, the session requests gpt-realtime, and passing model=\"gpt-realtime-2.1\" moves it to the replacement; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that runs the model itself are not, but a gateway or proxy that forwards them to OpenAI is still affected. The command searches your own files and skips node_modules. No output does not clear you: another framework can send one of these models by default without your code naming it. Search for the realtime or audio class your framework uses. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
+      "affected": "Code that requests any of these models from OpenAI's API, in Realtime sessions or anywhere else, including LiveKit voice agents that use openai.realtime.RealtimeModel without a model argument. In their releases read on 3 November, the OpenAI Agents SDK (0.24.0) and Pipecat (1.15.0) already default to gpt-realtime-2.1. Self-hosted servers that copy OpenAI's model names and run the model themselves are not affected by OpenAI's shutdown; a gateway or proxy that forwards the request to OpenAI is. Azure OpenAI deployments are not covered by this date: Microsoft's retirement schedule retires gpt-realtime 2025-08-28 on 2 March 2027. Update, 8 November: in the latest releases we read on 8 November, two libraries default to preview models that OpenAI's model pages already mark as shut down, so code that relies on those defaults asks for a model OpenAI no longer serves: Mastra's OpenAIRealtimeVoice (@mastra/voice-openai-realtime 0.14.8) connects with gpt-4o-mini-realtime-preview-2024-12-17 when you don't set a model, and camel-ai 0.2.90's OpenAIAudioModels.audio_question_answering uses gpt-4o-mini-audio-preview. Both take a model setting. We read the code; we did not call the API.",
+      "check": "In this order: (1) search your code and configuration with the command below; (2) for each LiveKit openai.realtime.RealtimeModel( line it prints, and each RealtimeModel( call in a file where it prints the import line, look for a model argument: without one, the session requests gpt-realtime, and passing model=\"gpt-realtime-2.1\" moves it to the replacement; (3) for each hit, check where the request goes: calls that reach OpenAI's own API are affected; calls that a base URL setting (such as OPENAI_BASE_URL) sends to a server that runs the model itself are not, but a gateway or proxy that forwards them to OpenAI is still affected. The command searches your own files and skips node_modules. No output does not clear you: another framework can send one of these models by default without your code naming it, for example Mastra's OpenAIRealtimeVoice or camel-ai's audio_question_answering. Search for the realtime or audio class your framework uses. (BusyBox grep, the default on Alpine, does not support --exclude-dir.)",
       "checkCode": "grep -rniE --exclude-dir=node_modules --exclude-dir=.git \\\n  -e '(^|[^A-Za-z0-9_.-])(gpt-realtime(-mini)?(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?|gpt-4o(-mini)?-realtime(-preview)?(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?)([^A-Za-z0-9_.-]|$)' \\\n  -e '(^|[^A-Za-z0-9_.-])(gpt-audio(-mini)?(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?|gpt-4o(-mini)?-audio(-preview)?(-20[0-9]{2}-[0-9]{2}-[0-9]{2})?)([^A-Za-z0-9_.-]|$)' \\\n  -e '(^|[^A-Za-z0-9_.-])gpt-4o-mini-transcribe-2025-03-20([^A-Za-z0-9_.-]|$)' \\\n  -e 'openai\\.realtime\\.RealtimeModel\\(' -e 'openai\\.realtime import RealtimeModel' -e 'plugins\\.openai import .*realtime' .",
       "leadDays": 30,
       "fix": {
@@ -3123,7 +3654,7 @@
         {
           "label": "OpenAI deprecations: 2026-07-20 Legacy audio, realtime, and transcription models",
           "href": "https://developers.openai.com/api/docs/deprecations",
-          "checkedAt": "2026-11-03"
+          "checkedAt": "2026-11-08"
         },
         {
           "label": "OpenAI model page: gpt-realtime (alias and deprecated snapshot)",
@@ -3342,8 +3873,8 @@
       "title": "node:latest becomes Node 27, and node:latest and node:lts stop being the same image",
       "area": "Node.js",
       "leadDays": 30,
-      "what": "Node.js 27.0.0 is planned for 22 April 2027. Node 27 is the first release line under the new Node.js schedule: it has been in an alpha phase since October 2026 (the first alpha, 27.0.0-alpha.0.0.0, is dated 29 October), and 27.0.0 makes it the Current release. In the official Docker image, the tags without a version number follow the Current release, so node:latest, node:current, node:slim, node:alpine, node:trixie, node:bookworm and their variants move from Node 26 to Node 27 once the 27.0.0 images are published. node:lts and node:26 stay on Node 26. node:latest and node:lts have been the same image since 28 October 2026; on 22 April they split. Node 26.0.0 came out on 5 May 2026 and its images were merged the next day; Node 24.0.0's images were merged on its release day, 6 May 2025. The image maintainers are rewriting their tag generator for the alpha phase in an open pull request (2681). We ran that version. With today's data it produces the same tags as the published list. With the Node 27 entry from the open pull request that adds the alpha images (2678), a 27.0.0 release added to the release list it reads, and the clock set to 21 April 2027, it moved no tags; with the clock set to 22 April it moved 18 tags to Node 27. Neither pull request is merged yet. The generator in use today, once rerun, would drop latest, current and the other tags without a version number from the list, leaving them on Node 26 until a fix is merged. The floating tags for the alpha period are still under discussion. An open issue (2680) proposes dropping or deprecating the current tags, and a reply argues against removing them from Node 26. A tag that is dropped from the list is not deleted from Docker Hub. It keeps its last image and stops getting updates, so node:current and the current- tags might stay on Node 26 instead of moving. Executed by us; not independently reproduced.",
-      "affected": "Dockerfile stages, Compose services and CI jobs whose image is node with no tag, node:latest, node:current, or another tag without a version number (node:slim, node:alpine, node:alpine3.24, node:alpine3.23, node:trixie, node:trixie-slim, node:bookworm, node:bookworm-slim, or a current- form such as node:current-slim), without an @sha256 digest. They get Node 27 the next time the machine fetches the image after the move: a fresh CI runner, docker pull, or docker build --pull. A machine that already has the image keeps Node 26 until it pulls again. Node 27's Linux variants can change before April. A tag for a variant Node 27 does not have stays on its last Node 26 image. Which changes break code will be in the 27.0.0 release notes, which are not out yet. The notes for the first alpha list several, among them: when --max-old-space-size is not set, the default heap limit becomes half of physical memory, between 256 MB and 4 GB, and memory held by Buffer and ArrayBuffer counts toward it; v8.serialize(), structuredClone() and postMessage() use a format that older Node.js releases cannot read; req.headers in the http module has a null prototype; npm moves to 12.1.0 and the bundled OpenSSL to 4.1.0. That list can change before 22 April. Tags with a version number, such as node:26-slim, do not move. The proposed alpha images get only exact version tags, such as 27.0.0-alpha.0.0.0-trixie-slim. In that pull request no floating tag points at an alpha; the maintainers are discussing whether to add one, such as next.",
+      "what": "Node.js 27.0.0 is planned for 22 April 2027. Node 27 is the first release line under the new Node.js schedule: it has been in an alpha phase since October 2026 (the first alpha, 27.0.0-alpha.0.0.0, is dated 29 October), and 27.0.0 makes it the Current release. In the official Docker image, the tags without a version number follow the Current release, so node:latest, node:current, node:slim, node:alpine, node:trixie, node:bookworm and their variants move from Node 26 to Node 27 once the 27.0.0 images are published. node:lts and node:26 stay on Node 26. node:latest and node:lts have been the same image since 28 October 2026; on 22 April they split. Node 26.0.0 came out on 5 May 2026 and its images were merged the next day; Node 24.0.0's images were merged on its release day, 6 May 2025. On 10 November the image maintainers merged the pull request that adds the Node 27 alpha images (2678), with their tag generator rewritten for the alpha phase. We had run that same generator on 4 November. With that day's data it produced the same tags as the published list. With a 27.0.0 release added to the release list it reads and the clock set to 21 April 2027, it moved no tags; with the clock set to 22 April it moved 18 tags to Node 27. The tag list the maintainers published on 11 November keeps node:latest, node:current and the other tags without a version number on Node 26 (26.13.1), and gives the alpha images only exact version tags. An open issue (2680) proposes dropping or deprecating the current tags, and a reply argues against removing them from Node 26. A tag that is dropped from the list is not deleted from Docker Hub. It keeps its last image and stops getting updates, so node:current and the current- tags might stay on Node 26 instead of moving. Executed by us; not independently reproduced.",
+      "affected": "Dockerfile stages, Compose services and CI jobs whose image is node with no tag, node:latest, node:current, or another tag without a version number (node:slim, node:alpine, node:alpine3.24, node:alpine3.23, node:trixie, node:trixie-slim, node:bookworm, node:bookworm-slim, or a current- form such as node:current-slim), without an @sha256 digest. They get Node 27 the next time the machine fetches the image after the move: a fresh CI runner, docker pull, or docker build --pull. A machine that already has the image keeps Node 26 until it pulls again. Node 27's Linux variants can change before April. A tag for a variant Node 27 does not have stays on its last Node 26 image. Which changes break code will be in the 27.0.0 release notes, which are not out yet. The notes for the first alpha list several, among them: when --max-old-space-size is not set, the default heap limit becomes half of physical memory, between 256 MB and 4 GB, and memory held by Buffer and ArrayBuffer counts toward it; v8.serialize(), structuredClone() and postMessage() use a format that older Node.js releases cannot read; req.headers in the http module has a null prototype; npm moves to 12.1.0 and the bundled OpenSSL to 4.1.0. That list can change before 22 April. Tags with a version number, such as node:26-slim, do not move. The alpha images, published on 11 November, have only exact version tags, such as 27.0.0-alpha.0.0.0-trixie-slim, and no floating tag points at an alpha; the maintainers have discussed adding one, such as next.",
       "check": "Run this from your repository root. It lists lines in Dockerfiles, Containerfiles and YAML files outside node_modules where FROM, image:, container: or an ARG line names node with no tag or with a tag that has no version number. It leaves out lines that name a major (node:26), lts, a release codename (node:iron, node:jod) or an @sha256 digest. Each line it prints is a candidate; check it. It also prints images named through a variable, such as node:${NODE_TAG}; read your ARG lines for those. It can print lines that are fine, such as an image whose name ends in node or a line that is commented out. It does not see GitLab's long form (image: then name: node:latest on the next line); search for name: node there. On our test files, run with GNU grep 3.12 in bash and dash, it printed every line it should, and its only extra lines were of the kinds named here.",
       "checkCode": "grep -rniIE --exclude-dir=node_modules \\\n  --include='*ockerfile*' --include='*ontainerfile*' \\\n  --include='*.yml' --include='*.yaml' \\\n  -e '(FROM|image:|container:|ARG ).*\\bnode([^-[:alnum:]_./]|$)' . |\n  grep -viE 'node:([0-9]|lts|argon|boron|carbon|dubnium|erbium|fermium|gallium|hydrogen|iron|jod|krypton|lithium)|@sha256'",
       "fix": {
@@ -3370,19 +3901,19 @@
           "checkedAt": "2026-11-04"
         },
         {
-          "label": "nodejs/docker-node pull request 2681 (open): tag generator rewritten for alpha releases",
+          "label": "nodejs/docker-node pull request 2681 (closed 10 November): tag generator rewritten for alpha releases; a maintainer merged the change with pull request 2678 instead",
           "href": "https://github.com/nodejs/docker-node/pull/2681",
-          "checkedAt": "2026-11-04"
+          "checkedAt": "2026-11-12"
         },
         {
           "label": "nodejs/docker-node issue 2680 (open): proposal to drop or deprecate the current tags, with a reply against removing them from Node 26",
           "href": "https://github.com/nodejs/docker-node/issues/2680",
-          "checkedAt": "2026-11-04"
+          "checkedAt": "2026-11-12"
         },
         {
-          "label": "nodejs/docker-node pull request 2678 (open): Node.js 27 alpha images with exact version tags only",
+          "label": "nodejs/docker-node pull request 2678 (merged 10 November): Node.js 27 alpha images with exact version tags only, and the rewritten tag generator",
           "href": "https://github.com/nodejs/docker-node/pull/2678",
-          "checkedAt": "2026-11-04"
+          "checkedAt": "2026-11-12"
         },
         {
           "label": "docker-library/official-images commit: Node.js 26.0.0 images, merged 6 May 2026 (node:latest moved from Node 25 to Node 26)",
@@ -3390,9 +3921,9 @@
           "checkedAt": "2026-11-04"
         },
         {
-          "label": "docker-library/official-images: the published node tag list",
+          "label": "docker-library/official-images: the published node tag list (11 November: latest and current on 26.13.1, 27 alpha images with exact version tags)",
           "href": "https://github.com/docker-library/official-images/blob/master/library/node",
-          "checkedAt": "2026-11-04"
+          "checkedAt": "2026-11-12"
         }
       ]
     },
@@ -3448,6 +3979,57 @@
           "label": "docker-library/official-images: the published node tag list (node:22 tags)",
           "href": "https://github.com/docker-library/official-images/blob/master/library/node",
           "checkedAt": "2026-11-04"
+        }
+      ]
+    },
+    {
+      "id": "2027-04-08-bedrock-claude-sonnet-4-5-end-of-life",
+      "added": "2026-11-08",
+      "short": "Claude Sonnet 4.5 end of life on Amazon Bedrock",
+      "date": "2027-04-08",
+      "dateEnd": null,
+      "datePrecision": "day",
+      "time": null,
+      "title": "Amazon Bedrock ends Claude Sonnet 4.5 (anthropic.claude-sonnet-4-5-20250929-v1:0) on 8 April 2027",
+      "area": "AI APIs",
+      "what": "Amazon Bedrock's model lifecycle page lists Claude Sonnet 4.5 (anthropic.claude-sonnet-4-5-20250929-v1:0) as Legacy since 8 October 2026, with its end of life on 8 April 2027 in all 31 Regions the page lists for it. AWS says requests to a model fail on or soon after its end-of-life date unless you have a private arrangement with the provider, and that its dates apply only to Bedrock and can differ from Anthropic's: the Claude API retires the same model on 30 November 2026. While a model is Legacy, AWS says new customers can't use it and existing customers may lose access after 15 days of inactivity. From 8 January 2027 the model is in public extended access, which AWS says brings higher pricing set by the model provider; the page gives no price.",
+      "affected": "Code that calls Claude Sonnet 4.5 on Amazon Bedrock, by its model ID or through an inference profile such as global.anthropic.claude-sonnet-4-5-20250929-v1:0. AWS lists only the base model ID; we expect the inference profiles to stop with it, but the page does not say so. In the latest releases we read on 8 November, agno's Bedrock Claude model (agno 3.1.12) sends the global profile when you don't choose a model. Anthropic's Claude Code documentation, read on 8 November, says that on Bedrock without pinned models the sonnet alias resolves to Sonnet 4.5 and background tasks such as session titles use it, while the default main model is Opus 5.5; it also says Claude Code falls back to another model at startup when a default is unavailable. We read the code and the documentation; we did not call Bedrock or run Claude Code.",
+      "check": "Search your code and configuration for claude-sonnet-4-5, which also matches the Bedrock model and inference-profile IDs. To see the model's state in a Region you use, call GetFoundationModel or ListFoundationModels in that Region and read modelLifecycle, as AWS's page suggests. In agno, pass id= to the Bedrock Claude model; in Claude Code on Bedrock, pin your models as Anthropic's Bedrock setup page describes.",
+      "checkCode": null,
+      "fix": {
+        "kind": "none",
+        "href": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html",
+        "label": "Amazon Bedrock model lifecycle page (Legacy models)",
+        "testedAt": null
+      },
+      "sources": [
+        {
+          "label": "Amazon Bedrock model lifecycle page: Legacy models table (Claude Sonnet 4.5, end of life 8 April 2027)",
+          "href": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Claude Code on Amazon Bedrock: pin model versions and default models",
+          "href": "https://code.claude.com/docs/en/amazon-bedrock",
+          "checkedAt": "2026-11-08"
+        },
+        {
+          "label": "Claude Code model configuration: model aliases by provider",
+          "href": "https://code.claude.com/docs/en/model-config",
+          "checkedAt": "2026-11-08"
+        }
+      ],
+      "packagesNote": "Paths are relative to site-packages, with line numbers from the version we read on 8 November 2026; they can move in later releases. We read the latest release of the agent frameworks and model integrations from our other 8 November updates, so other libraries can do the same. Listed: the library whose code sends this model on Bedrock when you don't choose one.",
+      "packages": [
+        {
+          "package": "agno",
+          "version": "3.1.12",
+          "versionReadOn": "2026-11-08",
+          "modelId": "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
+          "role": "Claude (from agno.models.aws; Amazon Bedrock) without id=",
+          "fileLine": "agno/models/aws/claude.py:35",
+          "also": [],
+          "usesNamedSnapshot": true
         }
       ]
     }

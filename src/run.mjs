@@ -13,7 +13,7 @@ import { randomBytes } from 'node:crypto';
 import { resolveRoot, LIMITS } from './walk.mjs';
 
 const SITE = 'https://cybernative.ai';
-export const UA = 'dated-break-check/0.1 (+https://github.com/CyberNative-AI/dated-break-check)';
+export const UA = 'dated-break-check/1.0 (+https://github.com/CyberNative-AI/dated-break-check)';
 const HERE = fileURLToPath(new URL('.', import.meta.url));
 const PAST_DAYS = 30; // a date that took effect in the last 30 days is still reported, as "in effect"
 export const DEADLINE_MS = 5 * 60 * 1000; // the whole walk and search; the step fails if it is reached
