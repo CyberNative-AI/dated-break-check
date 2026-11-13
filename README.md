@@ -11,7 +11,7 @@ Example: the log of a run on a small test repository on 13 November 2026. Each l
 2026-11-30  in 17 days                Hits this repository      Claude Sonnet 4.5 retired from the Claude API  app/summarize.py:3
 ```
 
-The job summary lists every matching date in a table.
+The job summary lists every matching date in a table. The [Example run](https://github.com/CyberNative-AI/dated-break-check/actions/workflows/example.yml) workflow runs this step on the files in [`examples/demo`](examples/demo) on every change here, so its latest run shows the warnings and the summary as GitHub displays them.
 
 ## Setup
 
