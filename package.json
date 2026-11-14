@@ -1,6 +1,6 @@
 {
   "name": "dated-break-check",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "GitHub Action: warn in your build before a dated upstream change hits your repository.",

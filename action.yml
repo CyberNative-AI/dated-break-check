@@ -1,5 +1,5 @@
 name: Dated break check
-description: Warns in your build before a dated upstream change (image tag move, API or model shutdown, runner change) hits your repository.
+description: Warns in CI before a dated upstream change (image tag move, API or model shutdown, runner change) hits your repository.
 author: CyberNative AI LLC
 branding:
   icon: calendar
