@@ -48,6 +48,8 @@ For every calendar date that a repository's files can show, the calendar publish
 
 To try the same searches before adding anything, open the [browser check](https://cybernative.ai/breakage-calendar/check/) and pick a folder: it runs in your browser and uploads nothing.
 
+On GitLab, the same check is a CI/CD component: [`cybernative-ai-llc/dated-break-check`](https://gitlab.com/cybernative-ai-llc/dated-break-check) in the GitLab CI/CD Catalog. It uses copies of this step's matcher and data, so it gives the same answer for the same files, and it reports in the merge request's Code Quality widget.
+
 Coding agents can ask the same question through the [Breakage Calendar MCP server](https://github.com/CyberNative-AI/breakage-calendar-mcp) (`ai.cybernative/breakage-calendar` in the MCP registry), for example before they upgrade a repository. It runs the same matcher as this step. The calendar's plain JSON files are documented at <https://cybernative.ai/breakage-calendar/api/>.
 
 ## What else does this, and when to use it instead
