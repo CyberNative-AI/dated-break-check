@@ -48,6 +48,8 @@ For every calendar date that a repository's files can show, the calendar publish
 
 To try the same searches before adding anything, open the [browser check](https://cybernative.ai/breakage-calendar/check/) and pick a folder: it runs in your browser and uploads nothing.
 
+Coding agents can ask the same question through the [Breakage Calendar MCP server](https://github.com/CyberNative-AI/breakage-calendar-mcp) (`ai.cybernative/breakage-calendar` in the MCP registry), for example before they upgrade a repository. It runs the same matcher as this step. The calendar's plain JSON files are documented at <https://cybernative.ai/breakage-calendar/api/>.
+
 ## What else does this, and when to use it instead
 
 - **Dependabot or Renovate** bump versions you have pinned. Renovate's digest pinning turns the `postgres:latest` move into a pull request you merge on your schedule, and if your images and packages are all pinned and kept current that way, you need this check less. Neither warns before a dated shutdown of an API, a model or a runner, which no version bump shows.
